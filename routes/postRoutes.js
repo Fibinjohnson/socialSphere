@@ -1,17 +1,13 @@
 const express=require("express");
+
 const router=express.Router();
-const postHelper={
-    getFeedPosts:()=>{
+const postHelper=require('../controller/posts')
+const {getFeedPosts,getUserPosts,likePost}=postHelper
+const {verifyToken}=require("../middleware/auth")
 
-    },
-    getUserPosts:()=>{
+router.get("/",verifyToken,getFeedPosts)
+router.get("/:userId/posts",verifyToken,getUserPosts)
+router.patch('/:id/like',verifyToken,likePost)
 
-    },
-    likePost:()=>{
-
-    }
-}
-module.exports.postHelper
-  
 
 module.exports=router;

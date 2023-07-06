@@ -1,7 +1,7 @@
 const express=require('express');
 const BodyParser=require('body-parser');
 const {register}=require("./controller/auth")
-const {postHandler}=require("./controller/posts")
+const {createPost}=require("./controller/posts")
 const{verifyToken}=require("./middleware/auth")
 const authRoutes=require("./routes/auth")
 const userRoutes=require("./routes/userRoutes")
@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage })
 
 app.post("/auth/register",verifyToken,upload.single("picture"),register)
-app.post('/posts',verifyToken,upload.single("picture"),postHandler)
+app.post('/posts',verifyToken,upload.single("picture"),createPost)
 app.use("/auth",authRoutes)
 app.use("/users",userRoutes)
 app.use('/posts',postRoutes)
