@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import {Box,Button,TextField,useMediaQuery,Typography,useTheme} from "@mui/material"
-import { EditAttributesOutlined } from '@mui/icons-material'
+import { EditAttributesOutlined, EditOutlined } from '@mui/icons-material'
 import { Formik } from 'formik'
 import * as yup from "yup";
 import { useNavigate } from 'react-router-dom';
@@ -118,7 +118,8 @@ function Form() {
               {!values.picture ?(<p>Add picture here</p>):
               (
                 <FlexBetween>
-                  <Typography></Typography>
+                  <Typography>{values.picture.name}</Typography>
+                  <EditOutlined></EditOutlined>
                 </FlexBetween>
               ) }
             </Box>
@@ -129,7 +130,38 @@ function Form() {
           
 
         </>)}
-      
+        <TextField label={"Email"} 
+          onBlur={handleBlur} 
+          onChange={handleChange}
+          value={values.email} 
+          name='email'
+          error={Boolean(touched.email) && Boolean(errors.email)}
+          helperText={touched.email && errors.email}
+          sx={{gridColumn:"span 2"}}
+          />
+             <TextField label={"Password"} 
+          onBlur={handleBlur} 
+          onChange={handleChange}
+          value={values.password} 
+          name='password'
+          error={Boolean(touched.password) && Boolean(errors.password)}
+          helperText={touched.password && errors.password}
+          sx={{gridColumn:"span 2"}}
+          />
+        </Box>
+        <Box>
+          <Button type='submit' 
+          fullWidth 
+          sx={{m:"2rem 0",
+           p:"1rem",
+           backgroundColor:palette.primary.main,
+           color:palette.background.alt,
+           "& :hover":{color:palette.primary.main}}}
+           >
+            {isLogin?"Login":"Register"}
+           </Button>
+           <Typography onClick={()=>{setPageType(isLogin?"register":"login");
+           resetForm()}}> </Typography>
         </Box>
       </form>
     )
