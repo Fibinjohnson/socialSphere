@@ -32,8 +32,7 @@ export const colorTokens = {
     return {
       palette: {
         mode: mode,
-        ...(mode === "Light"
-          ? {
+       ...(mode === "dark"? {
               // palette values for dark mode
               primary: {
                 dark: colorTokens.primary[200],
