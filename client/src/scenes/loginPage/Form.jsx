@@ -1,6 +1,6 @@
 import {useState} from 'react'
 import {Box,Button,TextField,useMediaQuery,Typography,useTheme} from "@mui/material"
-import { EditAttributesOutlined, EditOutlined } from '@mui/icons-material'
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Formik } from 'formik'
 import * as yup from "yup";
 import { useNavigate } from 'react-router-dom';
@@ -45,7 +45,50 @@ function Form() {
   const isNonMobileScreen=useMediaQuery("(min-width:600px)")
   const isLogin=pageType==="login";
   const isRegister=pageType==="register";
+
   const handleSubmit=async(values,onSubmitProps)=>{
+    
+    console.log("clicked");
+    {isLogin &&await login(values,onSubmitProps)};
+    {isRegister && await register(values,onSubmitProps)}
+  }
+
+  const register=async(values,onSubmitProps)=>{
+    console.log(values);
+   let formData=new FormData();
+   for (let value in values){
+   formData.append(value,values[value])
+   }
+   formData.append("pictures",values.picture.name)
+   const savedUserResponse=await fetch("https://localhost:3001/auth/register",
+   {
+    method:"post",
+    body:formData
+   });
+   const savedUser=await savedUserResponse.json();
+   onSubmitProps.resetForm(); 
+   if(savedUser){
+    setPageType("login")
+   }
+  }
+  const login=async(values,onSubmitProps)=>{
+    const loggedInResponse=await fetch("https://localhost:3001/auth/login",
+   {
+    method:"post",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify(values)
+   });
+   const loggedIn=await loggedInResponse.json();
+   onSubmitProps.resetForm();
+   if(loggedIn){
+    dispatch(
+      setLogin({
+        user:loggedIn.user,
+        token:loggedIn.token
+      })
+    )
+    navigate("/home")
+   }
 
   }
 
@@ -108,18 +151,18 @@ function Form() {
           <Box gridColumn={'span 4'} border={`1px solid ${palette.neutral.medium}`} borderRadious="5px" p="1rem">
           <Dropzone acceptedFiles={".jpg, .jpeg, .png"}
             multiple={false}
-            onDrop={(acceptedFiles)=>{setFieldValue("pictures",acceptedFiles[0])}}
+            onDrop={(acceptedFiles)=>{setFieldValue("picture",acceptedFiles[0])}}
           >
           {({getRootProps,getInputProps})=>(
             <Box {...getRootProps()} border={`2px dashed ${palette.primary.main}`} p={"1rem"} sx={{
-              "& :hover":{curser:pointer}
+              "& :hover":{curser:"pointer"}
             }}>
               <input {...getInputProps()}/>
               {!values.picture ?(<p>Add picture here</p>):
               (
                 <FlexBetween>
-                  <Typography>{values.picture.name}</Typography>
-                  <EditOutlined></EditOutlined>
+                  <Typography>{values.picture.name} </Typography>
+                  <EditOutlinedIcon/>
                 </FlexBetween>
               ) }
             </Box>
@@ -152,16 +195,22 @@ function Form() {
         <Box>
           <Button type='submit' 
           fullWidth 
+      
           sx={{m:"2rem 0",
            p:"1rem",
            backgroundColor:palette.primary.main,
            color:palette.background.alt,
            "& :hover":{color:palette.primary.main}}}
-           >
+           > 
             {isLogin?"Login":"Register"}
            </Button>
-           <Typography onClick={()=>{setPageType(isLogin?"register":"login");
-           resetForm()}}> </Typography>
+           <Typography onClick={()=>{setPageType(isLogin?"register":"login"); console.log("clicked");
+           resetForm()}}
+           sx={{
+            textDecoration:"underlline",
+            color:palette.primary.main,
+            "& :hover":{cursor:"pointer",color:palette.primary.light}
+           }}>{isLogin?"Dont Have an account?..Register here":"Click here to login"} </Typography>
         </Box>
       </form>
     )

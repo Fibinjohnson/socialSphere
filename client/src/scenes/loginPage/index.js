@@ -23,6 +23,9 @@ const LoginPage=()=>{
         </Typography>
 
         </Box>
+        <Box>
+           <Form></Form>
+        </Box>
     </Box>
 }
 export default LoginPage;

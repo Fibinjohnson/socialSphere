@@ -32,7 +32,7 @@ const NavPage=()=>{
                 }
             }
         }>
-
+           
         </Typography>
         {isNonMobileScreen && (<FlexBetween background-color={neutralTheme} borderRadius={"9px"} gap={"3rem"} padding={"0.1rem 1.5rem"}>
         <InputBase placeholder="...search"/>
