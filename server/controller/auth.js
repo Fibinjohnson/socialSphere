@@ -3,24 +3,27 @@ const jwt=require("jsonwebtoken");
 const {connectToDb}=require("../connection/connection")
 module.exports.register=async(req,res)=>{
     try{
+        console.log(req,"reqbody")
         const {
             firstname,
             lastname,
             email,
             password,
-            picturepath,
+            picture,
             friends,
             location,
             occupation}=req.body
-            const salt=await bcrypt.genSalt();
-            const passwordHash=bcrypt.hash(password, salt)
-            const database=await connectToDb();
+           const saltRounds = 10; // or choose an appropriate value
+           const salt = await bcrypt.genSalt(saltRounds);
+           const passwordHash = await bcrypt.hash(password, salt);
+           const database = await connectToDb();
+
 
             newUser= await database.collection("users").insertOne({
                 firstname,lastname,
                 email,
                 password:passwordHash,
-                picturepath,
+                picture,
                 friends,
                 location,
                 occupation,
@@ -31,7 +34,8 @@ module.exports.register=async(req,res)=>{
             })
             res.status(201).json(newUser);
     }catch(err){
-        res.status(500),json({error:err})
+        res.status(500).json({error:err})
+        console.log("error,:",err )
     }
 
 },

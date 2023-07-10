@@ -54,23 +54,32 @@ function Form() {
   }
 
   const register=async(values,onSubmitProps)=>{
-    console.log(values);
+    
    let formData=new FormData();
    for (let value in values){
+   
    formData.append(value,values[value])
+   
    }
-   formData.append("pictures",values.picture.name)
-   const savedUserResponse=await fetch("https://localhost:3001/auth/register",
+   formData.append("picture",values.picture.path)
+  
+   
+   const savedUserResponse=await fetch("http://localhost:3001/auth/register",
    {
     method:"post",
-    body:formData
+    body:formData,
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
    });
    const savedUser=await savedUserResponse.json();
+   
    onSubmitProps.resetForm(); 
    if(savedUser){
     setPageType("login")
    }
   }
+
   const login=async(values,onSubmitProps)=>{
     const loggedInResponse=await fetch("https://localhost:3001/auth/login",
    {
