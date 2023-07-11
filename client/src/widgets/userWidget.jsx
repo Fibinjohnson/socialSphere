@@ -1,13 +1,13 @@
-import { ManageAccountsOutlined,EditAttributesOutlined,LocationOnOutlined,WorkOutlineOutlined } from "@mui/icons-material";
+import { ManageAccountsOutlined,EditAttributesOutlined,LocationOnOutlined,WorkOutlineOutlined, EditOffOutlined } from "@mui/icons-material";
 import { Box,Typography,useTheme,Divider} from "@mui/material";
 import userImage from "components/userImage";
 import FlexBetween from "components/Flexbetween";
-import widgetWrapper from "components/widgetWrapper";
+import{ WidgetWrapper} from "components/widgetWrapper";
 import { useSelector } from "react-redux";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const userWidget=({userId,picturePath})=>{
+const UserWidget=({userId,picturePath})=>{
     const [user,setUser]=useState(null);
     const {palette}=useTheme();
     const navigate=useNavigate();
@@ -16,7 +16,7 @@ const userWidget=({userId,picturePath})=>{
     })
     const dark=palette.neutral.dark;
     const medium=palette.neutral.medium;
-    const main=palettte.neutral.main;
+    const main=palette.neutral.main;
 
     const getUser=async()=>{
         const response=fetch(`http://localhost:3001/users/${userId}`,{
@@ -42,7 +42,7 @@ const userWidget=({userId,picturePath})=>{
         friends
     }=user;
 return(
-    <widgetWrapper>
+    <WidgetWrapper>
         <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`profilepage`)}}>
          <FlexBetween>
             <userImage image={picturePath}/>
@@ -58,8 +58,10 @@ return(
                     {friends.length} friends
                 </Typography>
             </Box>
-            <ManageAccountsOutlined/>
+           
          </FlexBetween>
+         <ManageAccountsOutlined/>
+        </FlexBetween>
          <Divider/>
          {/**second Row */}
 
@@ -73,8 +75,47 @@ return(
           <Typography color={medium}>{occupation}</Typography>
         </Box>
     </Box>
-
+   { /**third row */}
+   <Box p={"1rem 0"}>
+     <FlexBetween mb={"0.5rem"}>
+       <Typography color={medium}>Who viewed your profile?</Typography>
+        <Typography color={medium} fontWeight={"500"}>{viewedprofile}</Typography>
+     </FlexBetween>
+     <FlexBetween mb={"0.5rem"}>
+       <Typography color={medium}>Profile impressins</Typography>
+        <Typography color={medium} fontWeight={"500"}>{impressions}</Typography>
+     </FlexBetween>
+       <FlexBetween mb={"0.5rem"}>
+       
+        <Typography color={medium} fontWeight={"500"} mb={"1rem"}>social profiles</Typography>
+        <FlexBetween gap={"1rem"} mb={".5rem"}>
+            <FlexBetween gap={"1rem"}>
+                <image src="../uploads" alt="twitterimage"/>
+                <Box>
+                     <Typography color={medium} fontWeight={"500"}>Twitter</Typography>
+                     <Typography color={medium}>social Networks</Typography>
+                  
+                </Box>
+            </FlexBetween>
+            <EditOffOutlined sx={{color:main}}></EditOffOutlined>
         </FlexBetween>
-    </widgetWrapper>
+        <FlexBetween gap={"1rem"} mb={".5rem"}>
+            <FlexBetween gap={"1rem"}>
+                <image src="../uploads" alt="linkdin image"/>
+                <Box>
+                     <Typography color={medium} fontWeight={"500"}>Linkdin</Typography>
+                     <Typography color={medium}>social Networks</Typography>
+                  
+                </Box>
+            </FlexBetween>
+            <EditOffOutlined sx={{color:main}}></EditOffOutlined>
+        </FlexBetween>
+     </FlexBetween>
+
+   </Box>
+
+        
+    </WidgetWrapper>
 )
 }
+export default UserWidget;
