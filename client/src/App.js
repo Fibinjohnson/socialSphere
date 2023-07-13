@@ -12,8 +12,14 @@ function App() {
   const mode=useSelector((state)=>state.mode)
   console.log(mode,":mode")
   const theme=useMemo(()=>createTheme(themeSettings(mode)),[mode])
-  const isAuth=Boolean(useSelector((state)=>{state.token}))
+  const isAuth=Boolean(useSelector((state)=>state.token))
+  const token=useSelector((state)=>state.token)
+  {console.log(isAuth,token,"isAuth")}
+ 
+  
+
   return (
+    
     <div className="App">
     <ThemeProvider theme={theme}>
     <CssBaseline/>

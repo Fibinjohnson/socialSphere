@@ -1,8 +1,9 @@
 import { ManageAccountsOutlined,EditAttributesOutlined,LocationOnOutlined,WorkOutlineOutlined, EditOffOutlined } from "@mui/icons-material";
 import { Box,Typography,useTheme,Divider} from "@mui/material";
-import userImage from "components/userImage";
+import UserImage from "components/UserImage";
 import FlexBetween from "components/Flexbetween";
-import{ WidgetWrapper} from "components/widgetWrapper";
+
+import WidgetWrap from "components/WidgetWrap";
 import { useSelector } from "react-redux";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,20 +12,25 @@ const UserWidget=({userId,picturePath})=>{
     const [user,setUser]=useState(null);
     const {palette}=useTheme();
     const navigate=useNavigate();
-    const token =useSelector((state)=>{
+    const token =useSelector((state)=>
         state.token
-    })
+    )
     const dark=palette.neutral.dark;
     const medium=palette.neutral.medium;
     const main=palette.neutral.main;
 
     const getUser=async()=>{
-        const response=fetch(`http://localhost:3001/users/${userId}`,{
-            method:"GET",
-            headers:{Authorization:`Bearer:${token}`}
-        })
-        const data=await response.json();
-        setUser(data);
+        try{
+            const userResponse=fetch(`http://localhost:3001/users/${userId}`,{
+                method:"GET",
+                headers:{Authorization:`Bearer:${token}`}
+            })
+            const data=await userResponse.json();
+            setUser(data);
+        }catch(err){
+            console.log(err,"error")
+        }
+     
     };
     useEffect(()=>{
         getUser();
@@ -42,10 +48,10 @@ const UserWidget=({userId,picturePath})=>{
         friends
     }=user;
 return(
-    <WidgetWrapper>
+    <WidgetWrap>
         <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`profilepage`)}}>
          <FlexBetween>
-            <userImage image={picturePath}/>
+            <UserImage image={picturePath}/>
             <Box>
                 <Typography variant="h4" color={dark} fontWeight="500"  sx={{
                     "$ :hover":
@@ -115,7 +121,7 @@ return(
    </Box>
 
         
-    </WidgetWrapper>
+    </WidgetWrap>
 )
 }
 export default UserWidget;

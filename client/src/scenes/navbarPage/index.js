@@ -15,31 +15,35 @@ const NavPage=()=>{
     const background=theme.palette.background.default;
     const primaryLight=theme.palette.primary.light;
     const alt=theme.palette.primary.alt;
-    const user=useSelector((state)=>{state.user});
+    const user=useSelector((state)=>state.user);
+    console.log(user,"navbar user")
     const fullname=`${user.firstname} ${user.lastname}`
     const isNonMobileScreen=useMediaQuery("(min-width:1000px)")
-    return <FlexBetween padding="1rem 6%" background-color={alt}>
+    return <FlexBetween padding="1rem 6%" width={'100%'} background-color={alt}>
         <FlexBetween gap="1.7rem">
+
         <Typography fontWeight={"bold"}
          fontSize={"clamp(1rem,2rem,2.5rem)"}
          color={"primary"}  
          onClick={()=>{navigate("/home")}}
         sx={
             {
-                "&hover":{
+                "& :hover":{
                     color:primaryLight,
                     cursor:"pointer"
                 }
             }
         }>
-           
+          Welcome
         </Typography>
+
         {isNonMobileScreen && (<FlexBetween background-color={neutralTheme} borderRadius={"9px"} gap={"3rem"} padding={"0.1rem 1.5rem"}>
-        <InputBase placeholder="...search"/>
+        <InputBase placeholder="search"/>
         <IconButton>
-            <Search></Search>
+            <Search/>
         </IconButton>
         </FlexBetween>)}
+
         {isNonMobileScreen?
        (
         <FlexBetween gap={"2rem"}>
@@ -50,6 +54,7 @@ const NavPage=()=>{
         <Message sx={{fontSize:"25px"}}/>
         <Notifications sx={{fontSize:"25px"}} />
         <Help sx={{fontSize:"25px"}} />
+        
         <FormControl variant="standard" value={fullname}>
             <Select
             value={fullname} sx={{backgroundColor:neutralTheme,
@@ -68,8 +73,9 @@ const NavPage=()=>{
             >
           <MenuItem value={fullname}>
             <Typography value={fullname}> {fullname}</Typography>
+            </MenuItem>
             <MenuItem onClick={()=>{dispatch(setLogout())}}> Logout</MenuItem>
-          </MenuItem>
+         
             </Select>
         </FormControl>
         </FlexBetween>
@@ -114,9 +120,10 @@ const NavPage=()=>{
             input={<InputBase/>}
             >
           <MenuItem value={fullname}>
-            <Typography value={fullname}> {fullname}</Typography>
-            <MenuItem onClick={()=>{dispatch(setLogout())}}> Logout</MenuItem>
-          </MenuItem>
+            <Typography value={fullname}> {fullname}</Typography> 
+            </MenuItem>
+            <MenuItem onClick={()=>{dispatch(setLogout())}}> <Typography>logout</Typography></MenuItem>
+         
             </Select>
         </FormControl>
         </FlexBetween>

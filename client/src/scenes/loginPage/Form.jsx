@@ -61,18 +61,22 @@ function Form() {
    formData.append(value,values[value])
    
    }
-   formData.append("picture",values.picture.path)
+   formData.append("picture",values.picture.name)
+   for (let [key, value] of formData.entries()) {
+    console.log(key, value,"keyV");
+    console.log(formData.entries(),'entries')
+  }
   
-   
-   const savedUserResponse=await fetch("http://localhost:3001/auth/register",
-   {
-    method:"post",
-    body:formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-   });
+  const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+    method: "POST",
+    // headers: {
+    //   'Content-Type': "multipart/form-data"
+    // },
+    body: formData
+  });
+  
    const savedUser=await savedUserResponse.json();
+   console.log(savedUser,'savedUser')
    
    onSubmitProps.resetForm(); 
    if(savedUser){
@@ -81,13 +85,14 @@ function Form() {
   }
 
   const login=async(values,onSubmitProps)=>{
-    const loggedInResponse=await fetch("https://localhost:3001/auth/login",
+    const loggedInResponse=await fetch("http://localhost:3001/auth/login",
    {
-    method:"post",
+    method:"POST",
     headers:{"Content-Type":"application/json"},
     body:JSON.stringify(values)
    });
    const loggedIn=await loggedInResponse.json();
+   console.log(loggedIn.token,"LoginToken");
    onSubmitProps.resetForm();
    if(loggedIn){
     dispatch(

@@ -2,11 +2,11 @@ const {connectToDb}=require("../connection/connection")
 const {collectionName}=require("../connection/collection")
 const objectid=require("mongodb").ObjectId
 
-     module.exports. getFeedPosts=async(req,res)=>{
+     module.exports.getFeedPosts=async(req,res)=>{
           try{
             const db=await connectToDb();
-            const allPosts=await db.collection(collectionName.postCollection).find().toArray()
-            res.status(209).json(allPosts)
+            const allPosts=await db.collection(collectionName.postCollection).find({firstName:"fibinjohnson"}).toArray()
+            res.status(200).json(allPosts)
           }catch{
             res.status(404).json({message:err.message})
           }
@@ -32,7 +32,7 @@ const objectid=require("mongodb").ObjectId
             /**  find liked if islike set delete else set userid */
             
          res.status(200).json()
-        }catch{
+        }catch(err){
             res.status(409).json({message:err.message})
         }
     },
@@ -55,7 +55,7 @@ const objectid=require("mongodb").ObjectId
                 comments:[]
             })
             const allPosts=  db.collection(collectionName.postCollection).find().toArray();
-            res.status(201).json({allPosts})
+            res.status(200).json({allPosts})
 
           }
     catch(err){

@@ -1,14 +1,14 @@
 
 import { EditOutlined,DeleteOutlineOutlined ,ImageOutlined,AttachFileOutlined,GifBoxOutlined,MicOutlined,MoreHorizOutlined} from "@mui/icons-material"
 import { Typography ,Box,useTheme,Button,InputBase,IconButton,useMediaQuery,Divider} from "@mui/material"
-import UserWidget from "./userWidget";
-import userImage from "components/userImage";
+import UserWidget from "./UserWidget";
+import userImage from "components/UserImage";
 import FlexBetween from "components/Flexbetween";
 import Dropzone from "react-dropzone";
 import { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { setPosts    } from "state";
-import WidgetWrapper from "components/widgetWrapper";
+import WidgetWrap from "components/WidgetWrap";
 
 
 
@@ -20,8 +20,8 @@ const MyPostsWidgets=({picturePath}) =>{
     const[post,setPost]=useState("");
     const {palette}=useTheme();
     console.log(palette,'palettte')
-    const {_id}=useSelector((state)=>{state.user})
-    const token=useSelecter((state)=>{state.token})
+    const {_id}=useSelector((state)=>state.user)
+    const token=useSelector((state)=>state.token)
     const isNonMobileScreen=useMediaQuery('(min-width:1000px)')
     const medium=palette.neutral.medium;
     const mediumMain=palette.neutral.mediumMain;    
@@ -49,7 +49,7 @@ const MyPostsWidgets=({picturePath}) =>{
     
 
   return (
-   <WidgetWrapper>
+   <WidgetWrap>
     <FlexBetween gap={'1.5rem'}>
     <userImage image={picturePath}></userImage>
         <InputBase placeholder="Whats on your mind..." onChange={(e)=>{setPost(e.target.value)}} value={post}
@@ -127,7 +127,7 @@ const MyPostsWidgets=({picturePath}) =>{
                 POST
                </Button>
     </FlexBetween>
-   </WidgetWrapper>
+   </WidgetWrap>
   )
 }
 

@@ -1,19 +1,26 @@
 import { useEffect } from "react";
-import { UseSelector,useDispatch } from "react-redux/es/hooks/useSelector";
+import { useSelector,useDispatch } from "react-redux";
 import { setPosts } from "state";
 import PostWidget from "./PostWidget";
 
 const PostsWidget=({userId,isProfile=false})=>{
     const dispatch=useDispatch();
-    const posts=useSelector((state)=>{state.posts})
-    const token=useSelector((state)=>{state.token})
+    const posts=useSelector((state)=>state.posts)
+    console.log(posts,"posts")
+    const token=useSelector((state)=>state.token)
     const getPosts=async()=>{
-        const response=await fetch('https://localhost:3001/posts',{
-            method:"GET",
-            headers:{Authorization:`Bearer${token}`},
-        });
-        const data=await response.json()
-        dispatch(setPosts({posts:data}))
+        try{
+            const postResponse=await fetch('https://localhost:3001/posts',{
+                method:"GET",
+                headers:{"Authorization":`Bearer ${token}`}
+            });
+            const data=await postResponse.json()
+            console.log(data,"user Posts data")
+            dispatch(setPosts({posts:data}))
+        }catch(err){
+            console.log(err,":er")
+        }
+      
     }
     const getUserPosts=async()=>{
         const response=await fetch(`https://localhost:3001/posts/${userId}/post`,{
@@ -25,15 +32,14 @@ const PostsWidget=({userId,isProfile=false})=>{
     };
     useEffect(()=>{
         if(isProfile){
-            getUserPosts
+            getUserPosts()
         }else{
-            getPosts
+            getPosts()
         }
-    },[])
+    })
     return(
         <>
-            {
-                posts.map(({_id,
+            {posts &&(posts.map(({_id,
                 userId,
                 firstName,
                 lastName,
@@ -44,7 +50,7 @@ const PostsWidget=({userId,isProfile=false})=>{
                 likes,
                 comments,
                 })=>{
-                    <PostWidget b 
+                    <PostWidget 
                     key={_id}
                   PostId= {_id}
                 userId={userId}
@@ -56,7 +62,8 @@ const PostsWidget=({userId,isProfile=false})=>{
                 likes={likes}
                 comments={comments} />
 
-                })
+                }))
+                
             }
         </>
     )
