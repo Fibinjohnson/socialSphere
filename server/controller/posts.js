@@ -5,9 +5,10 @@ const objectid=require("mongodb").ObjectId
      module.exports.getFeedPosts=async(req,res)=>{
           try{
             const db=await connectToDb();
-            const allPosts=await db.collection(collectionName.postCollection).find({firstName:"fibinjohnson"}).toArray()
+            const allPosts=await db.collection("posts").findOne({firstName:"fibinjohnson"})
+            console.log(allPosts,"allposts")
             res.status(200).json(allPosts)
-          }catch{
+          }catch(err){
             res.status(404).json({message:err.message})
           }
     },

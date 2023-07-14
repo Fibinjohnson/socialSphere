@@ -21,20 +21,24 @@ const UserWidget=({userId,picturePath})=>{
 
     const getUser=async()=>{
         try{
-            const userResponse=fetch(`http://localhost:3001/users/${userId}`,{
+            const userResponse=await fetch(`http://localhost:3001/users/${userId}`,{
                 method:"GET",
-                headers:{Authorization:`Bearer:${token}`}
+                headers:{Authorization:`Bearer ${token}`}
             })
             const data=await userResponse.json();
+            console.log(data,"userData")
+           
             setUser(data);
         }catch(err){
-            console.log(err,"error")
+            console.log("get user error ",err)
         }
      
     };
     useEffect(()=>{
         getUser();
     },[])
+
+
     if(!user){
         return null
     };

@@ -61,6 +61,7 @@ function Form() {
    formData.append(value,values[value])
    
    }
+   
    formData.append("picture",values.picture.name)
    for (let [key, value] of formData.entries()) {
     console.log(key, value,"keyV");
@@ -165,7 +166,9 @@ function Form() {
           <Box gridColumn={'span 4'} border={`1px solid ${palette.neutral.medium}`} borderRadious="5px" p="1rem">
           <Dropzone acceptedFiles={".jpg, .jpeg, .png"}
             multiple={false}
-            onDrop={(acceptedFiles)=>{setFieldValue("picture",acceptedFiles[0])}}
+            onDrop={(acceptedFiles)=>{
+             
+              setFieldValue("picture",acceptedFiles[0])}}
           >
           {({getRootProps,getInputProps})=>(
             <Box {...getRootProps()} border={`2px dashed ${palette.primary.main}`} p={"1rem"} sx={{

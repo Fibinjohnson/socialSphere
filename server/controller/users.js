@@ -5,11 +5,12 @@ module.exports.getUser=async(req,res)=>{
     try{
         let database=await connectToDb()
          const {id}=req.params;
-         const users=  database.collection("users").find({_id:new ObjectId(id)})
+         const users=  await database.collection("users").findOne({_id:new ObjectId(id)});
+         console.log("server user:",users)
          res.status(200).json(users)
          
     }catch(err){
-        res.status(500).json({err:err.message})
+        res.status(500).json({usererr:err.message})
     }
 }
 module.exports.getUserFriends=async(req,res)=>{

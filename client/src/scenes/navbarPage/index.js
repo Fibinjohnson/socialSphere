@@ -6,11 +6,11 @@ import { useDispatch,useSelector } from "react-redux";
 import { setMode,setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 const NavPage=()=>{
-    const [isMobileMenuToggled,setIsMenuToggled]=useState(false);
+    const [isMobileMenuToggled,setIsMobileMenuToggled]=useState(false);
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const theme=useTheme();
-    const neutralTheme=theme.palette.neutral.light;
+    const neutralLight=theme.palette.neutral.light;
     const dark=theme.palette.neutral.dark;
     const background=theme.palette.background.default;
     const primaryLight=theme.palette.primary.light;
@@ -19,116 +19,156 @@ const NavPage=()=>{
     console.log(user,"navbar user")
     const fullname=`${user.firstname} ${user.lastname}`
     const isNonMobileScreen=useMediaQuery("(min-width:1000px)")
-    return <FlexBetween padding="1rem 6%" width={'100%'} background-color={alt}>
-        <FlexBetween gap="1.7rem">
-
-        <Typography fontWeight={"bold"}
-         fontSize={"clamp(1rem,2rem,2.5rem)"}
-         color={"primary"}  
-         onClick={()=>{navigate("/home")}}
-        sx={
-            {
-                "& :hover":{
-                    color:primaryLight,
-                    cursor:"pointer"
-                }
-            }
-        }>
-          Welcome
-        </Typography>
-
-        {isNonMobileScreen && (<FlexBetween background-color={neutralTheme} borderRadius={"9px"} gap={"3rem"} padding={"0.1rem 1.5rem"}>
-        <InputBase placeholder="search"/>
-        <IconButton>
-            <Search/>
-        </IconButton>
-        </FlexBetween>)}
-
-        {isNonMobileScreen?
-       (
-        <FlexBetween gap={"2rem"}>
-        <IconButton onClick={()=>{dispatch(setMode())}}>
-            {theme.palette.mode===dark?
-            <DarkMode sx={{fontSize:"25px"}}></DarkMode>:<LightMode sx={{color:dark, fontSize:"25px"}}></LightMode>}
-        </IconButton>
-        <Message sx={{fontSize:"25px"}}/>
-        <Notifications sx={{fontSize:"25px"}} />
-        <Help sx={{fontSize:"25px"}} />
-        
-        <FormControl variant="standard" value={fullname}>
-            <Select
-            value={fullname} sx={{backgroundColor:neutralTheme,
-            width:"150px",
-            borderRadius:"o.25rem",
-            p:".25rem 1rem",
-            "& .MuiSvgIcon-root":{
-                pr:"0.25rem",
-                width:"3rem"
-            },
-            "& .MuiSelect-select:focus":{
-                backgroundColor:neutralTheme
-            }
-            }}
-            input={<InputBase/>}
+    return (
+        <FlexBetween padding="1rem 6%" backgroundColor={alt}>
+          <FlexBetween gap="1.75rem">
+            <Typography
+              fontWeight="bold"
+              fontSize="clamp(1rem, 2rem, 2.25rem)"
+              color="primary"
+              onClick={() => navigate("/home")}
+              sx={{
+                "&:hover": {
+                  color: primaryLight,
+                  cursor: "pointer",
+                },
+              }}
             >
-          <MenuItem value={fullname}>
-            <Typography value={fullname}> {fullname}</Typography>
-            </MenuItem>
-            <MenuItem onClick={()=>{dispatch(setLogout())}}> Logout</MenuItem>
-         
-            </Select>
-        </FormControl>
-        </FlexBetween>
-       ) : (
-            <IconButton onClick={()=>{setIsMenuToggled(!isMobileMenuToggled)}}>
-                <Menu/>
-            </IconButton>
-            )}
-            {!isMobileMenuToggled && !isNonMobileScreen && (<Box
-            position="fixed" bottom="0" right="0" height="100%" zIndex="10" maxWidth="500px" backgroundColor={background} minWidth="100px"> 
-            <Box display={"flex"} justifyContent="flex-end" p="1rem">
-              <IconButton
-              onClick={()=>{setIsMenuToggled(!isMobileMenuToggled)}}
+              Sociopedia
+            </Typography>
+            {isNonMobileScreen && (
+              <FlexBetween
+                backgroundColor={neutralLight}
+                borderRadius="9px"
+                gap="3rem"
+                padding="0.1rem 1.5rem"
               >
-                <Close/>
+                <InputBase placeholder="Search..." />
+                <IconButton>
+                  <Search />
+                </IconButton>
+              </FlexBetween>
+            )}
+          </FlexBetween>
+    
+          {/* DESKTOP NAV */}
+          {isNonMobileScreen ? (
+            <FlexBetween gap="2rem">
+              <IconButton onClick={() => dispatch(setMode())}>
+                {theme.palette.mode === "dark" ? (
+                  <DarkMode sx={{ fontSize: "25px" }} />
+                ) : (
+                  <LightMode sx={{ color: dark, fontSize: "25px" }} />
+                )}
               </IconButton>
-            </Box>
-
-
-            <FlexBetween display={"flex"} justifyContent={'center'} alignItems={"center"} flexDirection={"column"}  gap={"3rem"}>
-        <IconButton onClick={()=>{dispatch(setMode())}}>
-            {theme.palette.mode===dark?
-            <DarkMode sx={{fontSize:"25px"}}></DarkMode>:<LightMode sx={{color:dark, fontSize:"25px"}}></LightMode>}
-        </IconButton>
-        <Message sx={{fontSize:"25px"}}/>
-        <Notifications sx={{fontSize:"25px"}} />
-        <Help sx={{fontSize:"25px"}} />
-        <FormControl variant="standard" value={fullname}>
-            <Select
-            value={fullname} sx={{backgroundColor:neutralTheme,
-            width:"150px",
-            borderRadius:"o.25rem",
-            p:".25rem 1rem",
-            "& .MuiSvgIcon-root":{
-                pr:"0.25rem",
-                width:"3rem"
-            },
-            "& .MuiSelect-select:focus":{
-                backgroundColor:neutralTheme
-            }
-            }}
-            input={<InputBase/>}
+              <Message sx={{ fontSize: "25px" }} />
+              <Notifications sx={{ fontSize: "25px" }} />
+              <Help sx={{ fontSize: "25px" }} />
+              <FormControl variant="standard" value={fullname}>
+                <Select
+                  value={fullname}
+                  sx={{
+                    backgroundColor: neutralLight,
+                    width: "150px",
+                    borderRadius: "0.25rem",
+                    p: "0.25rem 1rem",
+                    "& .MuiSvgIcon-root": {
+                      pr: "0.25rem",
+                      width: "3rem",
+                    },
+                    "& .MuiSelect-select:focus": {
+                      backgroundColor: neutralLight,
+                    },
+                  }}
+                  input={<InputBase />}
+                >
+                  <MenuItem value={fullname}>
+                    <Typography>{fullname}</Typography>
+                  </MenuItem>
+                  <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+                </Select>
+              </FormControl>
+            </FlexBetween>
+          ) : (
+            <IconButton
+              onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
             >
-          <MenuItem value={fullname}>
-            <Typography value={fullname}> {fullname}</Typography> 
-            </MenuItem>
-            <MenuItem onClick={()=>{dispatch(setLogout())}}> <Typography>logout</Typography></MenuItem>
-         
-            </Select>
-        </FormControl>
+              <Menu />
+            </IconButton>
+          )}
+    
+          {/* MOBILE NAV */}
+          {!isNonMobileScreen && isMobileMenuToggled && (
+            <Box
+              position="fixed"
+              right="0"
+              bottom="0"
+              height="100%"
+              zIndex="10"
+              maxWidth="500px"
+              minWidth="300px"
+              backgroundColor={background}
+            >
+              {/* CLOSE ICON */}
+              <Box display="flex" justifyContent="flex-end" p="1rem">
+                <IconButton
+                  onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+                >
+                  <Close />
+                </IconButton>
+              </Box>
+    
+              {/* MENU ITEMS */}
+              <FlexBetween
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                gap="3rem"
+              >
+                <IconButton
+                  onClick={() => dispatch(setMode())}
+                  sx={{ fontSize: "25px" }}
+                >
+                  {theme.palette.mode === "dark" ? (
+                    <DarkMode sx={{ fontSize: "25px" }} />
+                  ) : (
+                    <LightMode sx={{ color: dark, fontSize: "25px" }} />
+                  )}
+                </IconButton>
+                <Message sx={{ fontSize: "25px" }} />
+                <Notifications sx={{ fontSize: "25px" }} />
+                <Help sx={{ fontSize: "25px" }} />
+                <FormControl variant="standard" value={fullname}>
+                  <Select
+                    value={fullname}
+                    sx={{
+                      backgroundColor: neutralLight,
+                      width: "150px",
+                      borderRadius: "0.25rem",
+                      p: "0.25rem 1rem",
+                      "& .MuiSvgIcon-root": {
+                        pr: "0.25rem",
+                        width: "3rem",
+                      },
+                      "& .MuiSelect-select:focus": {
+                        backgroundColor: neutralLight,
+                      },
+                    }}
+                    input={<InputBase />}
+                  >
+                    <MenuItem value={fullname}>
+                      <Typography>{fullname}</Typography>
+                    </MenuItem>
+                    <MenuItem onClick={() => dispatch(setLogout())}>
+                      Log Out
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </FlexBetween>
+            </Box>
+          )}
         </FlexBetween>
-        </Box>)}
-        </FlexBetween>
-    </FlexBetween>
+      );
 }
 export default NavPage;

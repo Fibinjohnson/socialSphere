@@ -32,8 +32,8 @@ module.exports.register=async(req,res)=>{
             viewedprofile: Math.floor(Math.random() * 1000),
             impressions: Math.floor(Math.random() * 1000)
           });
-          console.log(newUser,"newUser")
-            console.log("newUser","newUser")
+          console.log(newUser.insertedId.toString(),"newUser")
+          
             res.status(200).json({newUser});
     }catch(err){
         console.log("error mongo,:",err )
@@ -65,6 +65,7 @@ module.exports.login=async(req,res)=>{
         }else{
             console.log("every thing ok")
             const token=jwt.sign({id:user._id},process.env.SECRETCODEJWT);
+            console.log(token,"loginTokenserver")
             const userWithoutPassword = { ...user, password: undefined };
             res.status(200).json({token,user:userWithoutPassword})
         }
@@ -72,7 +73,7 @@ module.exports.login=async(req,res)=>{
 
         
     }catch(err){
-        res.status(500),json({error:err})
+        res.status(500).json({error:err})
         console.log("error of this code is:" ,  err)
     }
     

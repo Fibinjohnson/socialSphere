@@ -8,17 +8,19 @@ const PostsWidget=({userId,isProfile=false})=>{
     const posts=useSelector((state)=>state.posts)
     console.log(posts,"posts")
     const token=useSelector((state)=>state.token)
+    console.log(token,"token")
     const getPosts=async()=>{
         try{
             const postResponse=await fetch('https://localhost:3001/posts',{
                 method:"GET",
-                headers:{"Authorization":`Bearer ${token}`}
+                headers:{Authorization:`Bearer ${token}`}
             });
             const data=await postResponse.json()
-            console.log(data,"user Posts data")
+            console.log(data,"user feed data")
             dispatch(setPosts({posts:data}))
         }catch(err){
-            console.log(err,":er")
+            console.log("get feedPosts error",err)
+
         }
       
     }
@@ -36,10 +38,10 @@ const PostsWidget=({userId,isProfile=false})=>{
         }else{
             getPosts()
         }
-    })
+    },[])
     return(
         <>
-            {posts &&(posts.map(({_id,
+            {/* {posts &&(posts.map(({_id,
                 userId,
                 firstName,
                 lastName,
@@ -64,7 +66,7 @@ const PostsWidget=({userId,isProfile=false})=>{
 
                 }))
                 
-            }
+            } */}
         </>
     )
 
