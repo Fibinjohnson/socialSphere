@@ -17,6 +17,7 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
     const main=palette.neutral.main
     const medium=palette.neutral.medium
     const isFriend=friends.find((friend)=>friend._id===friendId)
+    const yourSelf=(friendId===_id)
 
     const patchFriend=async()=>{
        const response= await fetch(`https://localhost:3001/${_id}/${friendId}`,{
@@ -51,9 +52,10 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
 
      </Box>
     </FlexBetween>
-    <IconButton onClick={()=>{patchFriend()}}>
+    {!yourSelf && <IconButton onClick={()=>{patchFriend()}}>
         {isFriend?<PersonAddOutlined sx={{color:primaryDark}}/>:<PersonRemoveOutlined sx={{color:primaryDark}}/>}
-    </IconButton>
+    </IconButton>}
+   
    </FlexBetween>
   )
 }

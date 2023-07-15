@@ -19,7 +19,6 @@ const MyPostsWidgets=({picturePath}) =>{
     const[image,setImage]=useState(null);
     const[post,setPost]=useState("");
     const {palette}=useTheme();
-    console.log(palette,'palettte')
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
     const isNonMobileScreen=useMediaQuery('(min-width:1000px)')
@@ -34,13 +33,15 @@ const MyPostsWidgets=({picturePath}) =>{
             formData.append("picture",image)
             formData.append("picturePath",image.path)
         }
+        console.log(formData.entries(),"form entry")
         const response=await fetch(`http://localhost:3001/posts`,{
-            method:"post",
-            headers:{Authorization:`Beares${token}`},
+            method:"POST",
+            headers:{Authorization:`Bearer ${token}`},
             body:formData,
         })
         const posts=await response.json();
-        dispatch(setPosts({posts}));
+        console.log(posts,"posts users  ")
+        dispatch(setPosts({posts:posts}));
         setImage(null)
         setPosts("");
     }

@@ -11,7 +11,7 @@ module.exports.verifyToken = async (req, res, next) => {
 
     if (token.startsWith("Bearer ")) {
       token = token.slice(7, token.length).trimLeft();
-      console.log(token,"token")
+    
     }
 
     const verified = jwt.verify(token, process.env.SECRETCODEJWT);

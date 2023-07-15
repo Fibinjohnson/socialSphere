@@ -63,9 +63,9 @@ module.exports.login=async(req,res)=>{
             console.log("not match ")
             return res.status(400).json({msg:"invalid Password"})
         }else{
-            console.log("every thing ok")
+           
             const token=jwt.sign({id:user._id},process.env.SECRETCODEJWT);
-            console.log(token,"loginTokenserver")
+          
             const userWithoutPassword = { ...user, password: undefined };
             res.status(200).json({token,user:userWithoutPassword})
         }

@@ -47,8 +47,6 @@ function Form() {
   const isRegister=pageType==="register";
 
   const handleSubmit=async(values,onSubmitProps)=>{
-    
-    console.log("clicked");
     {isLogin &&await login(values,onSubmitProps)};
     {isRegister && await register(values,onSubmitProps)}
   }
@@ -77,7 +75,7 @@ function Form() {
   });
   
    const savedUser=await savedUserResponse.json();
-   console.log(savedUser,'savedUser')
+
    
    onSubmitProps.resetForm(); 
    if(savedUser){
@@ -93,7 +91,6 @@ function Form() {
     body:JSON.stringify(values)
    });
    const loggedIn=await loggedInResponse.json();
-   console.log(loggedIn.token,"LoginToken");
    onSubmitProps.resetForm();
    if(loggedIn){
     dispatch(

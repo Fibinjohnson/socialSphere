@@ -16,7 +16,7 @@ const NavPage=()=>{
     const primaryLight=theme.palette.primary.light;
     const alt=theme.palette.primary.alt;
     const user=useSelector((state)=>state.user);
-    console.log(user,"navbar user")
+    
     const fullname=`${user.firstname} ${user.lastname}`
     const isNonMobileScreen=useMediaQuery("(min-width:1000px)")
     return (

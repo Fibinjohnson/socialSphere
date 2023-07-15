@@ -7,7 +7,8 @@ import WidgetWrap from 'components/WidgetWrap';
 import { useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux'
 import { setPost } from 'state'
-import { boolean } from 'yup'
+
+// import { boolean } from 'yup'
 
 function PostWidget({ 
   PostId,
@@ -24,21 +25,26 @@ comments }) {
     const [isComments,setIsComments]=useState(false)
     const loggedInUserId=useSelector((state)=>state.user._id)
     const token=useSelector((state)=>state.token)
+  
     const primary=palette.primary.main
     const main=palette.neutral.main
     const mainMedium=palette.neutral.medium
-    const isLiked=boolean(likes[loggedInUserId]);
+    const isLiked = likes.includes(loggedInUserId);
+    console.log(isLiked,"likes")
+   
     const likeCount=Object.keys(likes).length
+    console.log(likes,"likes")
 
     const patchLike=async()=>{
-      const response=await fetch(`http://localhost:3001/post/${PostId}/like`,{
+      const response=await fetch(`http://localhost:3001/posts/${PostId}/like`,{
         method:"PATCH",
-        header:{"Authorization":`Bearer ${token}`,
-        "Conten-Type":"application/json"},
+        headers:{"Authorization":`Bearer ${token}`,
+        "Content-Type":"application/json"},
         body:JSON.stringify({userId:loggedInUserId})
        
       })
       const updatedPost=await response.json();
+      console.log(updatedPost,"updatedPost")
       dispatch(setPost({post:updatedPost}));
     }
 
@@ -72,7 +78,7 @@ comments }) {
                   <FavoriteBorderOutlined />
                 )}
               </IconButton>
-              <Typography>{likeCount}</Typography>
+            <Typography>{likeCount}</Typography>
             </FlexBetween>
   
             <FlexBetween gap="0.3rem">

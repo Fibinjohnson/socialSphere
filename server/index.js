@@ -51,7 +51,7 @@ app.post('/posts',verifyToken,upload.single("picture"),createPost)
 app.use("/auth",router)
 app.use("/users",userRoutes)
 app.use('/posts',postRoutes)
-app.get("/auth/register",(req,res)=>{res.send("hello page is working")})
+
 
 
 
