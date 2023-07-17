@@ -3,19 +3,25 @@ import Friend from "components/Friend"
 import { useDispatch,useSelector } from "react-redux"
 import { useEffect } from "react"
 import { setFriends } from "state"
+import{setFriendsDetails} from "state"
 import WidgetWrap from "components/WidgetWrap"
 function FriendListWidget({userId}) {
     const {palette}=useTheme();
     const dispatch=useDispatch()
     const token=useSelector((state)=>state.token)
-    const friends=useSelector((state)=>state.user.friends)
+    console.log(token,"token")
+    const friends=useSelector((state)=>state.user)
+    const friendDetails=useSelector((state)=>state.friendDetails)
+    console.log(friendDetails,"friendDetails in the state")
+    console.log(friends,"friendList d")
     const getFriends=async()=>{
         const response= await fetch(`http://localhost:3001/users/${userId}/friends`,{
             method:"GET",
             headers: {Authorization:`Bearer ${token}`}
         })
         const data= await response.json();
-        dispatch(setFriends({friends:data})) 
+        dispatch(setFriendsDetails({details:data}))
+        console.log(data,"friends data") 
     }
     useEffect(()=>{
       getFriends()
@@ -27,14 +33,16 @@ function FriendListWidget({userId}) {
     fontWeight={"500"}
     sx={{mb:"1.5rem"}}
     >
-      Friend List
+      Your Friends 
+      
+
     </Typography>
     <Box display={"flex" } flexDirection={"column"} gap="1.5rem"> 
-    {/* {friends.map((friend)=>{
-        <Friend key={friend._id} friendId={friend._id} name={`${friend.firstName} ${friend.lastName}`} userPicturePath={friend.picturePath} subtitle={friend.occupation}/> 
-    })
+    {friendDetails.map((friend)=>
+        <Friend key={friend._id} friendId={friend._id} name={`${friend.firstname} ${friend.lastname}`} userPicturePath={friend.picture} subtitle={friend.occupation}/> 
+    )
 
-    } */}
+    }
     </Box>
    </WidgetWrap>
   )

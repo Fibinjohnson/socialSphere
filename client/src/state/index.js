@@ -4,7 +4,8 @@ const initialState={
     name:null,
     posts:[],
     token:"null",
-    user:"null"
+    user:"null",
+    friendDetails:[]
 };
 export const authSlice=createSlice({
     name:"auth",
@@ -40,8 +41,10 @@ export const authSlice=createSlice({
             }
         })
         state.posts=updatedPost;
+    },setFriendsDetails:(state,action)=>{
+        state.friendDetails=action.payload.details;
     }
 }
 })
-export const {setMode,setLogin,setLogout,setPost,setPosts,setFriends}=authSlice.actions;
+export const {setMode,setLogin,setLogout,setPost,setPosts,setFriends,setFriendsDetails}=authSlice.actions;
 export default authSlice;

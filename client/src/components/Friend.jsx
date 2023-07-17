@@ -12,20 +12,28 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
     const friends=useSelector((state)=>state.user.friends)
+    const yesFriendsArray=friends.length>0;
+    console.log(yesFriendsArray,"yesFriendsArray")
+    const arrayFriends=yesFriendsArray ?friends[0].allFriends:friends 
+    
+    console.log(arrayFriends,"add reove friends")
     const primaryLight=palette.primary.light
     const primaryDark=palette.primary.dark
     const main=palette.neutral.main
     const medium=palette.neutral.medium
-    const isFriend=friends.find((friend)=>friend._id===friendId)
+    console.log(friends)
+    const isFriend=arrayFriends.includes(friendId);
+    console.log(isFriend,"friends")
     const yourSelf=(friendId===_id)
 
     const patchFriend=async()=>{
-       const response= await fetch(`https://localhost:3001/${_id}/${friendId}`,{
+       const response= await fetch(`http://localhost:3001/users/${_id}/${friendId}`,{
             method:"PATCH",
-            headers:{Authorization:`Bearer${token}`},
+            headers:{Authorization:`Bearer ${token}`},
             "Content-Type":"application/json"
         })
         const data=await response.json();
+        console.log("add remove server",data,'servr')
         dispatch(setFriends({friends:data}))
     }
   return (
@@ -53,7 +61,7 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
      </Box>
     </FlexBetween>
     {!yourSelf && <IconButton onClick={()=>{patchFriend()}}>
-        {isFriend?<PersonAddOutlined sx={{color:primaryDark}}/>:<PersonRemoveOutlined sx={{color:primaryDark}}/>}
+        {isFriend?<PersonRemoveOutlined sx={{color:primaryDark}}/>:<PersonAddOutlined sx={{color:primaryDark}}/>}
     </IconButton>}
    
    </FlexBetween>

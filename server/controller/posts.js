@@ -50,7 +50,7 @@ const {ObjectId}=require("mongodb")
               
            
             console.log("server side",updatedPost)
-            /**  find liked if islike set delete else set userid */
+            
             
          res.status(200).json(updatedPost)
         }catch(err){
