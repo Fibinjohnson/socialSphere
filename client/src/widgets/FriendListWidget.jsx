@@ -1,5 +1,6 @@
 import { Box,Typography,useTheme } from "@mui/material"
 import Friend from "components/Friend"
+import SugggestedFriends from "components/SugggestedFriends"
 import { useDispatch,useSelector } from "react-redux"
 import { useEffect } from "react"
 import { setFriends } from "state"
@@ -12,8 +13,6 @@ function FriendListWidget({userId}) {
     console.log(token,"token")
     const friends=useSelector((state)=>state.user)
     const friendDetails=useSelector((state)=>state.friendDetails)
-    console.log(friendDetails,"friendDetails in the state")
-    console.log(friends,"friendList d")
     const getFriends=async()=>{
         const response= await fetch(`http://localhost:3001/users/${userId}/friends`,{
             method:"GET",
@@ -21,12 +20,13 @@ function FriendListWidget({userId}) {
         })
         const data= await response.json();
         dispatch(setFriendsDetails({details:data}))
-        console.log(data,"friends data") 
+       
     }
     useEffect(()=>{
       getFriends()
     },[])
   return (
+    <>
    <WidgetWrap>
     <Typography color={palette.neutral.dark}
     variant="h5"
@@ -45,6 +45,9 @@ function FriendListWidget({userId}) {
     }
     </Box>
    </WidgetWrap>
+   <SugggestedFriends></SugggestedFriends>
+   </>
+   
   )
 }
 

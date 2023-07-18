@@ -2,7 +2,7 @@ import { ManageAccountsOutlined,EditAttributesOutlined,LocationOnOutlined,WorkOu
 import { Box,Typography,useTheme,Divider} from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/Flexbetween";
-
+import SugggestedFriends from "components/SugggestedFriends";
 import WidgetWrap from "components/WidgetWrap";
 import { useSelector } from "react-redux";
 import { useState,useEffect } from "react";
@@ -51,6 +51,7 @@ const UserWidget=({userId,picturePath})=>{
         impressions,
         friends
     }=user;
+    console.log(friends.length,"friendslength")
 return(
     <WidgetWrap>
         <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`profilepage`)}}>
@@ -123,7 +124,7 @@ return(
      </FlexBetween>
 
    </Box>
-
+<SugggestedFriends/>
         
     </WidgetWrap>
 )

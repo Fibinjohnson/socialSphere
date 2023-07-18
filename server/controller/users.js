@@ -1,16 +1,39 @@
 const {connectToDb}=require("../connection/connection");
 const {ObjectId}=require('mongodb')
 
-module.exports.getUser=async(req,res)=>{
+module.exports.getUser = async (req, res) => {
+  try {
+      let database = await connectToDb();
+      const { id } = req.params;
+
+      // Validate the 'id' parameter
+      if (!ObjectId.isValid(id)) {
+          return res.status(400).json({ error: 'Invalid user ID format' });
+      }
+
+      const user = await database.collection('users').findOne({ _id: new ObjectId(id) });
+
+      if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+      }
+
+      res.status(200).json(user);
+  } catch (err) {
+      res.status(500).json({ userError: 'Error while fetching user data' });
+      console.error(err, 'console user error');
+  }
+};
+module.exports.getAllUsers=async(req,res)=>{
     try{
-        let database=await connectToDb()
-         const {id}=req.params;
-         const users=  await database.collection("users").findOne({_id:new ObjectId(id)});
-         console.log("server user:",users)
-         res.status(200).json(users)
-         
+      const {id}=req.params
+      console.log("Getting all users...");
+     let database=await connectToDb();
+     const allUsers=await database.collection("users").find().toArray();
+     res.status(200).json(allUsers)
+     console.log(allUsers,"all users in server")
     }catch(err){
-        res.status(500).json({usererr:err.message})
+      res.status(500).json({getAlluserError:err.message})
+      console.log(err,"console getall user error")
     }
 }
 module.exports.getUserFriends=async(req,res)=>{
@@ -42,8 +65,6 @@ module.exports.getUserFriends=async(req,res)=>{
             }
           }
         ]).toArray();
-        
-        console.log(friendsWithDetails,"details");
         res.status(200).json(friendsWithDetails)
       
     }catch(err){
@@ -68,10 +89,7 @@ module.exports.addRemoveFriend=async(req,res)=>{
           allFriends: { $addToSet: "$friends" } 
         }
       }]).toArray();
-     console.log(updatedUser,"updatedUser")
     res.status(200).json(updatedUser)
-    
-    /**remove and add friends in friendlist */
     }catch(err){
         res.status(500).json({err:err.message})
     }

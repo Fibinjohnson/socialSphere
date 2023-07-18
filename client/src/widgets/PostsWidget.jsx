@@ -6,7 +6,7 @@ import PostWidget from "./PostWidget";
 const PostsWidget=({userId,isProfile=false})=>{
     const dispatch=useDispatch();
     const posts=useSelector((state)=>state.posts)
-    console.log(posts,"like updated posts")
+    const isPosts=posts.length>0;
     const token=useSelector((state)=>state.token)
     const getPosts=async()=>{
         try{
@@ -25,12 +25,18 @@ const PostsWidget=({userId,isProfile=false})=>{
       
     }
     const getUserPosts=async()=>{
-        const response=await fetch(`https://localhost:3001/posts/${userId}/post`,{
-            method:"GET",
-            headers:{Authorization:`Bearer ${token}`},
-        });
-        const data=await response.json()
-        dispatch(setPosts({posts:data}))
+        try{
+            const response=await fetch(`http://localhost:3001/posts/${userId}/posts`,{
+                method:"GET",
+                headers:{Authorization:`Bearer ${token}`},
+            });
+            const data=await response.json()
+            console.log(data,"get users in feed post")
+            dispatch(setPosts({posts:data}))
+        }catch(err){
+            console.log(err,"get users in feed error")
+        }
+      
     };
     useEffect(()=>{
         if(isProfile){
@@ -43,7 +49,7 @@ const PostsWidget=({userId,isProfile=false})=>{
     console.log("feed post",posts)
     return(
         <>
-        {posts && posts.map((post) => (
+        {isPosts ? posts.map((post) => (
             <PostWidget 
                 key={post._id}
                 PostId={post._id}
@@ -56,7 +62,7 @@ const PostsWidget=({userId,isProfile=false})=>{
                 likes={post.likes}
                 comments={post.comments}
             />
-        ))}
+        )):<><h1>No posts to show</h1></>}
     </>
     
     )

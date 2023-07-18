@@ -6,7 +6,6 @@ const {ObjectId}=require("mongodb")
           try{
             const db=await connectToDb();
             const allPostsToFeed=await db.collection("posts").find().toArray();
-            console.log(allPostsToFeed,"allposts,db")
             res.status(200).json(allPostsToFeed)
           }catch(err){
             res.status(404).json({message:err.message})
@@ -16,7 +15,8 @@ const {ObjectId}=require("mongodb")
         try{
             const {userId}=req.params;
             const db=await connectToDb();
-            const userPosts=db.collection(collectionName.postCollection).find({userId:new ObjectId(userId)})
+            const userPosts=await db.collection(collectionName.postCollection).find({userId:new ObjectId(userId)}).toArray()
+            console.log(userPosts,"userPosts")
             res.status(200).json(userPosts)
 
         }catch{
@@ -43,14 +43,7 @@ const {ObjectId}=require("mongodb")
                 
                 console.log(addResult, "addResult");
               }
-              
-              // Fetch the updated post
               const updatedPost = await database.collection(collectionName.postCollection).findOne({ _id: new ObjectId(id) });
-              console.log(updatedPost, "updatedPost");
-              
-           
-            console.log("server side",updatedPost)
-            
             
          res.status(200).json(updatedPost)
         }catch(err){
@@ -74,7 +67,6 @@ const {ObjectId}=require("mongodb")
                 comments:[]
             })
             const allPosts= await db.collection(collectionName.postCollection).find().toArray();
-            console.log("createposts",allPosts)
             res.status(200).json(allPosts)
 
           }
