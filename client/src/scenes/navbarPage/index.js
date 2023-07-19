@@ -1,10 +1,11 @@
 import { useState } from "react";
 import {Box,IconButton,InputBase,Typography,Select,MenuItem,FormControl,useTheme,useMediaQuery} from "@mui/material";
-import {Search,LightMode,DarkMode,Notifications,Help,Menu,Close,Message} from "@mui/icons-material";
+import {Search,LightMode,DarkMode,Notifications,Menu,Close,Message} from "@mui/icons-material";
+import { Home } from "@mui/icons-material";
 import FlexBetween from "components/Flexbetween";
 import { useDispatch,useSelector } from "react-redux";
 import { setMode,setLogout } from "state";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 const NavPage=()=>{
     const [isMobileMenuToggled,setIsMobileMenuToggled]=useState(false);
     const navigate=useNavigate();
@@ -63,7 +64,7 @@ const NavPage=()=>{
               </IconButton>
               <Message sx={{ fontSize: "25px" }} />
               <Notifications sx={{ fontSize: "25px" }} />
-              <Help sx={{ fontSize: "25px" }} />
+              <Home onClick={()=>navigate("/home")} sx={{ fontSize: "25px" }} />
               <FormControl variant="standard" value={fullname}>
                 <Select
                   value={fullname}
@@ -138,7 +139,7 @@ const NavPage=()=>{
                 </IconButton>
                 <Message sx={{ fontSize: "25px" }} />
                 <Notifications sx={{ fontSize: "25px" }} />
-                <Help sx={{ fontSize: "25px" }} />
+                <Home onClick={()=>{navigate("/home")}} sx={{ fontSize: "25px" }} />
                 <FormControl variant="standard" value={fullname}>
                   <Select
                     value={fullname}

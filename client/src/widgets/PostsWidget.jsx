@@ -44,7 +44,7 @@ const PostsWidget=({userId,isProfile=false})=>{
         }else{
             getPosts()
         }
-    },[])
+    },userId)
     console.log(typeof posts,"type")
     console.log("feed post",posts)
     return(

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import AdvertWidget from "widgets/AdvertWidget";
 import FriendListWidget from "widgets/FriendListWidget";
 
+
 const HomePage=()=>{
   const isNonMobileScreen=useMediaQuery('(min-width:1000px)')
   const {_id,picture}=useSelector((state)=>state.user )
@@ -38,8 +39,11 @@ const HomePage=()=>{
             <FriendListWidget userId={_id} />
           </Box>
         )}
+       
       </Box>
+      
     </Box>
+  
   );
 }
 export default HomePage;

@@ -75,5 +75,52 @@ const {ObjectId}=require("mongodb")
     }
 
 
+},
+module.exports.commentPost=async(req,res)=>{
+  try{
+    const {postId}=req.params
+    const {userId,commentposted}=req.body
+    const body={userId:new ObjectId(userId),commentPosted:commentposted}
+    console.log(body,"server body")
+    const database=await connectToDb();
+    const Posts=await database.collection("posts").updateOne({_id:new ObjectId(postId)},{$push:{comments:body}})
+    const updatedPost=await database.collection('posts').aggregate([
+      { $match: { _id: new ObjectId(postId) } },
+      {
+        $unwind: '$comments', // Unwind the comments array to separate each comment object
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField:'comments.userId' ,
+          foreignField:'_id' ,
+          as: 'user',
+        },
+      },
+      {
+        $unwind: '$user', 
+      },
+      {
+        $project: {
+         _id:0,
+          
+          "comments.commentPosted": 1,
+          "user.firstname": 1,
+          "user.lastname": 1,
+        },
+      },
+    ]).toArray();
+    
+    console.log(updatedPost);
+    
+    res.status(200).json(updatedPost)
+    console.log(updatedPost,"updated post")
+   
+  }catch(err){
+    console.log("error occured during server comment",err.message);
+    res.status(500).json(err.message)
+  }
+
+
 }
 

@@ -26,7 +26,6 @@ module.exports.getUser = async (req, res) => {
 module.exports.getAllUsers=async(req,res)=>{
     try{
       const {id}=req.params
-      console.log("Getting all users...");
      let database=await connectToDb();
      const allUsers=await database.collection("users").find().toArray();
      res.status(200).json(allUsers)
@@ -89,6 +88,7 @@ module.exports.addRemoveFriend=async(req,res)=>{
           allFriends: { $addToSet: "$friends" } 
         }
       }]).toArray();
+      console.log(updatedUser,"server updated user")
     res.status(200).json(updatedUser)
     }catch(err){
         res.status(500).json({err:err.message})

@@ -15,10 +15,15 @@ function SugggestedFriends() {
     const navigate=useNavigate();
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
+    const primaryDark=palette.primary.dark
+    const main=palette.neutral.main
+    const medium=palette.neutral.medium
    
     const friends=useSelector((state)=>state.user.friends)
     const yesFriendsArray=friends.length>0;
     const [allUsers,setAllUsers]=useState([])
+  
+    
     
 const getAllUsers = async () => {
   try {
@@ -29,51 +34,55 @@ const getAllUsers = async () => {
       },
     });
     const data = await response.json();
-    setAllUsers(data);
-    console.log(data, "get all users");
+    const dataExceptUser=data.filter((user)=>user._id!==_id)
+    setAllUsers(dataExceptUser)
   } catch (error) {
     console.error(error);
   }
 };
 
     useEffect(()=>{getAllUsers()},[])
-    console.log(allUsers,"all users")
-  return (
-  
-//     <FlexBetween>
-//     <FlexBetween gap={"1rem"}>
-//       <UserImage size="55px" image={userPicturePath} />
-//       <Box onClick={() => navigate(`/profile/${friendId}`)}>
-//         <Typography
-//           color={main}
-//           variant="h5"
-//           fontWeight="500"
-//           sx={{
-//             "$:hover": {
-//               color: palette.primary.light,
-//               cursor: "pointer",
-//             },
-//           }}
-//         >
-//           {name}
-//         </Typography>
-//         <Typography color={medium} fontSize="0.75rem">
-//           {subtitle}
-//         </Typography>
-//       </Box>
-//     </FlexBetween>
-//     {!yourSelf && (
-//       <IconButton onClick={() => setOpenModal(true)}>
-//         {isFriend ? (
-//           <PersonRemoveOutlined sx={{ color: primaryDark }} />
-//         ) : (
-//           <PersonAddOutlined sx={{ color: primaryDark }} />
-//         )}
-//       </IconButton>
-//     )}
-//   </FlexBetween>
-<h2>here it is, </h2>
-  )
+    return (
+      <div >
+      <h3>People you might know</h3>
+        {allUsers &&
+          allUsers.map((user) => (
+            <FlexBetween key={user._id}>
+              <FlexBetween gap={"1rem"} paddingTop={"20px"}>
+                <UserImage size="55px" image={user.picture} />
+                <Box onClick={() => navigate(`/profile/${user._id}`)}>
+                  <Typography
+                    color={main}
+                    variant="h5"
+                    fontWeight="500"
+                    sx={{
+                      ":hover": {
+                        color: palette.primary.light,
+                        cursor: "pointer",
+                      },
+                    }}
+                  >
+                    {`${user.firstname} ${user.lastname}`}
+                  </Typography>
+                  <Typography color={medium} fontSize="0.75rem">
+                    {user.subtitle}
+                  </Typography>
+                </Box>
+              </FlexBetween>
+              {/* {!yourSelf && (
+                <IconButton onClick={() => setOpenModal(true)}>
+                  {user.isFriend ? (
+                    <PersonRemoveOutlined sx={{ color: primaryDark }} />
+                  ) : (
+                    <PersonAddOutlined sx={{ color: primaryDark }} />
+                  )}
+                </IconButton>
+              )} */}
+            </FlexBetween>
+          ))}
+      </div>
+    );
+    
 }
 
 export default SugggestedFriends

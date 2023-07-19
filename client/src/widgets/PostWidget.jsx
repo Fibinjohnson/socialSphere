@@ -1,12 +1,14 @@
 import PostsWidget from './PostsWidget'
 import { ChatBubbleOutlineOutlined,FavoriteBorderOutlined,FavoriteOutlined,ShareOutlined } from '@mui/icons-material'
-import { Box,Divider,Typography,IconButton,useTheme } from '@mui/material'
+import { Box,Divider,Typography,IconButton,useTheme, Input } from '@mui/material'
 import FlexBetween from 'components/Flexbetween'
 import Friend from 'components/Friend';
 import WidgetWrap from 'components/WidgetWrap';
 import { useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux'
 import { setPost } from 'state'
+import SendIcon from '@mui/icons-material/Send';
+
 
 // import { boolean } from 'yup'
 
@@ -25,15 +27,17 @@ comments }) {
     const [isComments,setIsComments]=useState(false)
     const loggedInUserId=useSelector((state)=>state.user._id)
     const token=useSelector((state)=>state.token)
+    const [comment,setComment]=useState();
+    
   
     const primary=palette.primary.main
     const main=palette.neutral.main
     const mainMedium=palette.neutral.medium
     const isLiked = likes.includes(loggedInUserId);
-    console.log(isLiked,"likes")
+  
    
     const likeCount=Object.keys(likes).length
-    console.log(likes,"likes")
+ 
 
     const patchLike=async()=>{
       const response=await fetch(`http://localhost:3001/posts/${PostId}/like`,{
@@ -44,8 +48,18 @@ comments }) {
        
       })
       const updatedPost=await response.json();
-      console.log(updatedPost,"updatedPost")
       dispatch(setPost({post:updatedPost}));
+    }
+    const patchComment=async()=>{
+      const response=await fetch(`http://localhost:3001/posts/${PostId}/comment`,{
+        method:"PATCH",
+        headers:{"Authorization":`Bearer ${token}`,
+            "Content-Type":"application/json"},
+        body:JSON.stringify({userId:loggedInUserId,commentposted:comment})
+      })
+      const data=await response.json()
+      // dispatch(setPost({post:data}))
+      console.log(data,"commentdata")
     }
 
     return (
@@ -85,7 +99,7 @@ comments }) {
               <IconButton onClick={() => setIsComments(!isComments)}>
                 <ChatBubbleOutlineOutlined />
               </IconButton>
-              <Typography>{comments.length}</Typography>
+              <Typography>2{comments.length}</Typography>
             </FlexBetween>
           </FlexBetween>
   
@@ -95,14 +109,18 @@ comments }) {
         </FlexBetween>
         {isComments && (
           <Box mt="0.5rem">
-            {comments.map((comment, i) => (
+          <Box display={'flex'}> 
+          <Input onChange={(e)=>{setComment(e.target.value)}} value={comment} placeholder='write a comment' sx={{width:"100%"}}></Input>
+          <SendIcon onClick={()=>{patchComment()}} sx={{":hover":{color:primary}}} /></Box>
+         
+            {/* {comments.map((comment, i) => (
               <Box key={`${name}-${i}`}>
                 <Divider />
                 <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
                   {comment}
                 </Typography>
               </Box>
-            ))}
+            ))} */}
             <Divider />
           </Box>
         )}

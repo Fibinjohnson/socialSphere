@@ -1,6 +1,5 @@
 import { Box,Typography,useTheme } from "@mui/material"
 import Friend from "components/Friend"
-import SugggestedFriends from "components/SugggestedFriends"
 import { useDispatch,useSelector } from "react-redux"
 import { useEffect } from "react"
 import { setFriends } from "state"
@@ -33,7 +32,7 @@ function FriendListWidget({userId}) {
     fontWeight={"500"}
     sx={{mb:"1.5rem"}}
     >
-      Your Friends 
+       Friends 
       
 
     </Typography>
@@ -45,8 +44,9 @@ function FriendListWidget({userId}) {
     }
     </Box>
    </WidgetWrap>
-   <SugggestedFriends></SugggestedFriends>
+   
    </>
+  
    
   )
 }

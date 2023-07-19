@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import NavPage from "scenes/navbarPage";
 import FriendListWidget from "widgets/FriendListWidget";
-import MyPostsWidgets from "widgets/MyPostsWidgets";
 import PostsWidget from "widgets/PostsWidget";
 import UserWidget from "widgets/UserWidget";
 const ProfilePage=()=>{
@@ -45,7 +44,9 @@ const ProfilePage=()=>{
     >
       <PostsWidget userId={userId} isProfile={true} />
     </Box>
+  
   </Box>
+  
     </Box> 
 }
 export default ProfilePage;

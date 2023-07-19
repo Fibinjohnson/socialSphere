@@ -36,7 +36,7 @@ const UserWidget=({userId,picturePath})=>{
     };
     useEffect(()=>{
         getUser();
-    },[])
+    },userId)
 
 
     if(!user){
@@ -54,7 +54,7 @@ const UserWidget=({userId,picturePath})=>{
     console.log(friends.length,"friendslength")
 return(
     <WidgetWrap>
-        <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`profilepage`)}}>
+        <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`/profile/${userId}`)}}>
          <FlexBetween>
             <UserImage image={picturePath}/>
             <Box>
@@ -124,7 +124,7 @@ return(
      </FlexBetween>
 
    </Box>
-<SugggestedFriends/>
+<SugggestedFriends />
         
     </WidgetWrap>
 )
