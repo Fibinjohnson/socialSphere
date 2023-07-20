@@ -15,7 +15,6 @@ const PostsWidget=({userId,isProfile=false})=>{
                 headers:{Authorization:`Bearer ${token}`}
             });
             const data=await postResponse.json()
-            console.log(data,"user feed data")
             dispatch(setPosts({posts:data}))
 
         }catch(err){
@@ -31,7 +30,6 @@ const PostsWidget=({userId,isProfile=false})=>{
                 headers:{Authorization:`Bearer ${token}`},
             });
             const data=await response.json()
-            console.log(data,"get users in feed post")
             dispatch(setPosts({posts:data}))
         }catch(err){
             console.log(err,"get users in feed error")
@@ -44,9 +42,7 @@ const PostsWidget=({userId,isProfile=false})=>{
         }else{
             getPosts()
         }
-    },userId)
-    console.log(typeof posts,"type")
-    console.log("feed post",posts)
+    },[userId])
     return(
         <>
         {isPosts ? posts.map((post) => (
@@ -60,7 +56,7 @@ const PostsWidget=({userId,isProfile=false})=>{
                 picturePath={post.picturepath}
                 userPicturePath={post.userPicturePath}
                 likes={post.likes}
-                comments={post.comments}
+                comments={post.allComments}
             />
         )):<><h1>No posts to show</h1></>}
     </>

@@ -19,7 +19,7 @@ const LoginPage=()=>{
         backgroundColor={theme.palette.background.alt}
         >
         <Typography fontWeight={"500"} varient="h5" sx={{mb:"1.5rem"}}>
-            Welcome fibin 
+            Welcome to Sociopedia 
         </Typography>
 
         </Box>

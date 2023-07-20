@@ -61,10 +61,7 @@ function Form() {
    }
    
    formData.append("picture",values.picture.name)
-   for (let [key, value] of formData.entries()) {
-    console.log(key, value,"keyV");
-    console.log(formData.entries(),'entries')
-  }
+ 
   
   const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
     method: "POST",

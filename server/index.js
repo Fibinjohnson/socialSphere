@@ -14,9 +14,15 @@ const path=require("path");
 const cors=require('cors');
 const cookieParser=require("cookie-parser");
 const{connectToDb}=require("./connection/connection")
+const http=require('http');
+const { Server } = require("socket.io");
+
 
 
 const app =express();
+app.use(cors({  origin: 'http://localhost:3000'}))
+const server=http.createServer(app)
+const io = new Server(server);
 app.use(cookieParser())
 app.use(express.json());
 app.use(BodyParser.json({ limit:"30mb",extended:true}))
@@ -25,10 +31,19 @@ app.use(helmet.crossOriginResourcePolicy({
     policy:"cross-origin"
 }));
 app.use(BodyParser.urlencoded({limit:"30mb", extended: true }));
-
-
-app.use(cors())
 app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
+
+
+io.on('connection', (socket) => {
+  console.log('A user connected in ',socket.id);
+  socket.on("join_room",(data)=>
+  {socket.join(data);
+  console.log("printed data in server:",data)})
+
+  socket.on('disconnect', () => {
+    console.log('A user disconnected',socket.id);
+  });
+});
 
 
 /*STORAGE CONFIGIRATION*/
@@ -53,18 +68,8 @@ app.use("/users",userRoutes)
 app.use('/posts',postRoutes)
 
 
-
-
-
-
-
-
-
-
-
-
    connectToDb().then(()=>{console.log("connection successfull")
-    app.listen(3001||process.env.PORT,async()=>{
+    server.listen(3001||process.env.PORT,async()=>{
      
       console.log("app is listening at port 3001")})
     

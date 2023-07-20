@@ -1,7 +1,6 @@
 
 import { EditOutlined,DeleteOutlined ,ImageOutlined,AttachFileOutlined,GifBoxOutlined,MicOutlined,MoreHorizOutlined} from "@mui/icons-material"
 import { Typography ,Box,useTheme,Button,InputBase,IconButton,useMediaQuery,Divider} from "@mui/material"
-import UserWidget from "./UserWidget";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/Flexbetween";
 import Dropzone from "react-dropzone";
@@ -33,17 +32,17 @@ const MyPostsWidgets=({picturePath}) =>{
             formData.append("picture",image)
             formData.append("picturePath",image.path)
         }
-        console.log(formData.entries(),"form entry")
+        
         const response=await fetch(`http://localhost:3001/posts`,{
             method:"POST",
             headers:{Authorization:`Bearer ${token}`},
             body:formData,
         })
         const posts=await response.json();
-        console.log(posts,"posts users  ")
+       
         dispatch(setPosts({posts:posts}));
         setImage(null)
-        setPosts("");
+        setPost("");
     }
     
 

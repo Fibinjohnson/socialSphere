@@ -16,7 +16,6 @@ const {ObjectId}=require("mongodb")
             const {userId}=req.params;
             const db=await connectToDb();
             const userPosts=await db.collection(collectionName.postCollection).find({userId:new ObjectId(userId)}).toArray()
-            console.log(userPosts,"userPosts")
             res.status(200).json(userPosts)
 
         }catch{
@@ -41,7 +40,6 @@ const {ObjectId}=require("mongodb")
                   { $addToSet: { likes: new ObjectId(userId) } }
                 );
                 
-                console.log(addResult, "addResult");
               }
               const updatedPost = await database.collection(collectionName.postCollection).findOne({ _id: new ObjectId(id) });
             
@@ -103,18 +101,17 @@ module.exports.commentPost=async(req,res)=>{
       {
         $project: {
          _id:0,
-          
           "comments.commentPosted": 1,
           "user.firstname": 1,
           "user.lastname": 1,
         },
       },
     ]).toArray();
+     await database.collection("posts").updateOne({_id:new ObjectId(postId)},{$set:{allComments:updatedPost}})
+    const updatedPosts=await database.collection('posts').findOne({_id:new ObjectId(postId)});
     
-    console.log(updatedPost);
+    res.status(200).json(updatedPosts)
     
-    res.status(200).json(updatedPost)
-    console.log(updatedPost,"updated post")
    
   }catch(err){
     console.log("error occured during server comment",err.message);

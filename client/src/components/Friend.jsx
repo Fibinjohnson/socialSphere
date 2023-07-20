@@ -15,18 +15,14 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
     const friends=useSelector((state)=>state.user.friends)
-    console.log(friends,"friends")
     const yesFriendsArray=friends.length>0;
-    console.log(yesFriendsArray,"yesFriendsArray")
     const arrayFriends=yesFriendsArray ?friends:friends 
-    console.log(arrayFriends,"arrayfriends")
     const [openModal,setOpenModal]=useState(false)
     const primaryLight=palette.primary.light
     const primaryDark=palette.primary.dark
     const main=palette.neutral.main
     const medium=palette.neutral.medium
     const isFriend=arrayFriends.includes(friendId);
-    console.log(isFriend,"isfriend")
     const yourSelf=(friendId===_id)
 
     const patchFriend=async()=>{
@@ -37,9 +33,7 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
         })
         const data=await response.json();
         const isArray=data.length>0;
-       console.log(isArray,"yesFriendsArray")
        const arrayOfFriends=isArray ?data[0].allFriends:data 
-        console.log(arrayOfFriends,"data")
         dispatch(setFriends({friends:arrayOfFriends}))
     }
     return (

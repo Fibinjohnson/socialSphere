@@ -1,4 +1,4 @@
-import { ManageAccountsOutlined,EditAttributesOutlined,LocationOnOutlined,WorkOutlineOutlined, EditOffOutlined } from "@mui/icons-material";
+import { ManageAccountsOutlined,LocationOnOutlined,WorkOutlineOutlined, EditOffOutlined } from "@mui/icons-material";
 import { Box,Typography,useTheme,Divider} from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/Flexbetween";
@@ -26,8 +26,6 @@ const UserWidget=({userId,picturePath})=>{
                 headers:{Authorization:`Bearer ${token}`}
             })
             const data=await userResponse.json();
-            console.log(data,"userData")
-           
             setUser(data);
         }catch(err){
             console.log("get user error ",err)
@@ -36,7 +34,7 @@ const UserWidget=({userId,picturePath})=>{
     };
     useEffect(()=>{
         getUser();
-    },userId)
+    },[userId])
 
 
     if(!user){
@@ -51,7 +49,7 @@ const UserWidget=({userId,picturePath})=>{
         impressions,
         friends
     }=user;
-    console.log(friends.length,"friendslength")
+ 
 return(
     <WidgetWrap>
         <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`/profile/${userId}`)}}>

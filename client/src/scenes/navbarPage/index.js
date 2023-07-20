@@ -62,7 +62,7 @@ const NavPage=()=>{
                   <LightMode sx={{ color: dark, fontSize: "25px" }} />
                 )}
               </IconButton>
-              <Message sx={{ fontSize: "25px" }} />
+              <Message  onClick={()=>{navigate('/home/chat');}} sx={{ fontSize: "25px" }} />
               <Notifications sx={{ fontSize: "25px" }} />
               <Home onClick={()=>navigate("/home")} sx={{ fontSize: "25px" }} />
               <FormControl variant="standard" value={fullname}>
@@ -137,7 +137,7 @@ const NavPage=()=>{
                     <LightMode sx={{ color: dark, fontSize: "25px" }} />
                   )}
                 </IconButton>
-                <Message sx={{ fontSize: "25px" }} />
+                <Message onClick={()=>{navigate('/home/chat');}} sx={{ fontSize: "25px" }} />
                 <Notifications sx={{ fontSize: "25px" }} />
                 <Home onClick={()=>{navigate("/home")}} sx={{ fontSize: "25px" }} />
                 <FormControl variant="standard" value={fullname}>
