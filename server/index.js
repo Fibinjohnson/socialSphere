@@ -14,15 +14,13 @@ const path=require("path");
 const cors=require('cors');
 const cookieParser=require("cookie-parser");
 const{connectToDb}=require("./connection/connection")
+const app =express();
 const http=require('http');
 const { Server } = require("socket.io");
-
-
-
-const app =express();
-app.use(cors({  origin: 'http://localhost:3000'}))
 const server=http.createServer(app)
 const io = new Server(server);
+
+app.use(cors({  origin: 'http://localhost:3000'}))
 app.use(cookieParser())
 app.use(express.json());
 app.use(BodyParser.json({ limit:"30mb",extended:true}))
@@ -38,7 +36,12 @@ io.on('connection', (socket) => {
   console.log('A user connected in ',socket.id);
   socket.on("join_room",(data)=>
   {socket.join(data);
-  console.log("printed data in server:",data)})
+  console.log("printed data in server:",data)}) 
+
+socket.on('send_data',(data)=>{
+  console.log(data,"data received")
+  socket.to('64b7839786e7f7727f4764c064b637df64efa539d2108943').emit('receive_data',data)
+})
 
   socket.on('disconnect', () => {
     console.log('A user disconnected',socket.id);

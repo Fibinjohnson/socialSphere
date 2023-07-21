@@ -1,14 +1,24 @@
 import { PersonAddOutlined,PersonRemoveOutlined } from "@mui/icons-material"
 import { Box,IconButton,Typography,useTheme } from "@mui/material"
+import ChatIcon from '@mui/icons-material/Chat';
 import { useSelector,useDispatch } from "react-redux"
 import { setFriends } from "state"
 import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImage";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { setChatName } from "state";
 import Modal from "./Modal";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3001",{
+    transports: ["websocket"],
+  });
 
-function Friend({friendId,name,subtitle,userPicturePath}) {
+socket.on('connect', () => {
+  console.log('Connected to the server.');
+});
+
+function Friend({friendId,name,subtitle,userPicturePath, chatpage=false}) {
     const {palette}=useTheme();
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -23,7 +33,18 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
     const main=palette.neutral.main
     const medium=palette.neutral.medium
     const isFriend=arrayFriends.includes(friendId);
-    const yourSelf=(friendId===_id)
+    const yourSelf=(friendId===_id);
+  
+
+    const joinRoom = () => {
+     {
+        socket.emit("join_room", `${_id}${friendId}` ); 
+        dispatch(setChatName({
+          chatName: { userName: name, room1: `${_id}${friendId}`,room2:`${friendId}${_id}`},
+        })) 
+        
+      }
+    };
 
     const patchFriend=async()=>{
        const response= await fetch(`http://localhost:3001/users/${_id}/${friendId}`,{
@@ -68,6 +89,7 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
                   </Typography>
                 </Box>
               </FlexBetween>
+              {!chatpage?(<Box>
               {!yourSelf && (
                 <IconButton onClick={() => setOpenModal(true)}>
                   {isFriend ? (
@@ -77,6 +99,7 @@ function Friend({friendId,name,subtitle,userPicturePath}) {
                   )}
                 </IconButton>
               )}
+              </Box>):<IconButton onClick={()=>{joinRoom()}}><ChatIcon/></IconButton>}
             </FlexBetween>
           )}
         </>

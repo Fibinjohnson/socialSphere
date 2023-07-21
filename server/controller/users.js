@@ -40,18 +40,18 @@ module.exports.getUserFriends=async(req,res)=>{
         const {id}=req.params;
         const friendsWithDetails = await database.collection("users").aggregate([
           {
-            $match: { _id: new ObjectId(id) } // Match the user based on the provided _id.
+            $match: { _id: new ObjectId(id) } 
           },
           {
             $lookup: {
-              from: "users", // The name of the "users" collection.
-              localField: "friends", // Assuming "friends" is an array of ObjectIds in the user document.
+              from: "users",
+              localField: "friends", 
               foreignField: "_id",
-              as: "friendsWithDetails" // The alias for the joined friends data.
+              as: "friendsWithDetails" 
             }
           },
           {
-            $unwind: "$friendsWithDetails" // Unwind the friendsWithDetails array to create separate documents.
+            $unwind: "$friendsWithDetails" 
           },
           {
             $project: {

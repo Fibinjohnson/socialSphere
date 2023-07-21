@@ -1,29 +1,56 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import io from "socket.io-client";
-import { Chat } from "@mui/icons-material";
-const socket = io.connect("http://localhost:3001",{
-    transports: ["websocket"],
-  });
+import { useState ,useEffect} from "react";
 
-socket.on('connect', () => {
-  console.log('Connected to the server.');
-});
+import Chat from "components/Chat";
+import ChatWidget from "components/ChatWidget";
+import { useSelector } from "react-redux";
+import Friend from "components/Friend";
+import { Box } from "@mui/material";
+
+
 
 function ChatPage() {
-    const [username, setUsername] = useState("");
+    const friends=useSelector((state)=>state.user.friends)
+    const loggedInUser=useSelector((state)=>state.user)
+    
+    const token=useSelector((state)=>state.token)
+    const [userFriends, setUserFriends] = useState([]);
     const [room, setRoom] = useState("");
     const [showChat, setShowChat] = useState(false);
   
-    const joinRoom = () => {
-      if (username !== "" && room !== "") {
-        socket.emit("join_room", room);
-        setShowChat(true);
-      }
-    };
+     
 
+    const getFriends=async()=>{
+      const response=await fetch(`http://localhost:3001/users/${loggedInUser._id}/friends`,{
+        method:"GET",
+        headers:{"Authorization":`Bearer ${token}`}
+      })
+      const data=await response.json();
+       setUserFriends(data)
+    }
+ 
+  useEffect(()=>{getFriends()},[])
+  
   return (
-    <div className="App">
+    <Box display={"flex"} justifyContent={"space-between"}>
+    <Box p={"20px"} display={"flex"} flexDirection={"column"}>
+     {userFriends && userFriends.map((userFriend)=>(
+      <Box pr={"12px"} paddingBottom={"12px"}>
+      <Friend friendId={userFriend._id} 
+          name={`${userFriend.firstname} ${userFriend.lastname}`} 
+          userPicturePath={userFriend.picture} 
+            chatpage
+          />
+     </Box>
+      ))} 
+      
+     </Box>
+     <ChatWidget/>
+    </Box>
+  )
+}
+
+export default ChatPage
+{/* <div className="App">
     {!showChat ? (
       <div className="joinChatContainer">
         <h3>Join A Chat</h3>
@@ -46,8 +73,4 @@ function ChatPage() {
     ) : (
       <Chat socket={socket} username={username} room={room} />
     )}
-  </div>
-  )
-}
-
-export default ChatPage
+  </div> */}

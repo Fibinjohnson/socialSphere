@@ -5,7 +5,8 @@ const initialState={
     posts:[],
     token:"null",
     user:"null",
-    friendDetails:[]
+    friendDetails:[],
+    chatName:[]
 };
 export const authSlice=createSlice({
     name:"auth",
@@ -43,8 +44,11 @@ export const authSlice=createSlice({
         state.posts=updatedPost;
     },setFriendsDetails:(state,action)=>{
         state.friendDetails=action.payload.details;
+    },
+    setChatName:(state,action)=>{
+        state.chatName=action.payload.chatName;
     }
 }
 })
-export const {setMode,setLogin,setLogout,setPost,setPosts,setFriends,setFriendsDetails}=authSlice.actions;
+export const {setMode,setLogin,setLogout,setPost,setPosts,setFriends,setFriendsDetails,setChatName}=authSlice.actions;
 export default authSlice;
