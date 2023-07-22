@@ -5,11 +5,7 @@ import FlexBetween from './Flexbetween'
 import { Send } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { useState,useEffect } from 'react';
-import io from "socket.io-client";
 
-const socket = io.connect("http://localhost:3001",{
-    transports: ["websocket"],
-  });
 function ChatWidget({username}) {
     const {palette}=useTheme();
     const primaryLight=palette.primary.light
@@ -17,18 +13,31 @@ function ChatWidget({username}) {
     const main=palette.neutral.main
     const medium=palette.neutral.medium
     const chatName=useSelector((state)=>state.chatName)
+    const socket=chatName.socket;
+    console.log(chatName,"chatname")
+  
+    console.log(socket,"socket")
+    // const socket=chatName.socket
     const [message,setMessage]=useState('');
     const [messageList,setMessageList]=useState([]);
     console.log(messageList,'message')
     async function sendMessage(){
         const messageData={
             message:message,
-            chatDetails:chatName,
+            receiver:chatName.userName,
+            sender:chatName.sender,
+            room1:chatName.room1,
+            room2:chatName.room2,
             date: new Date().getHours() + ":" + new Date().getMinutes()
         }
         await socket.emit('send_data',messageData)
     }
-    useEffect(()=>{socket.on('receive_data',(data)=>{console.log(data);setMessageList((list)=>[...list,data]) })},[socket])
+    useEffect(()=>{if (socket) {
+      socket.on('receive_data', (data) => {
+        console.log(data, "data");
+        setMessageList((list)=>[...list,data])
+      });
+    }},[socket])
   return ( 
     <WidgetWrap  position={"relative"} m={"2rem 4rem"} height={"400px"} width={"300px"}>
     

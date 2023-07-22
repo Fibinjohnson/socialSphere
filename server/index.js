@@ -39,12 +39,13 @@ io.on('connection', (socket) => {
   console.log("printed data in server:",data)}) 
 
 socket.on('send_data',(data)=>{
-  console.log(data,"data received")
-  socket.to('64b7839786e7f7727f4764c064b637df64efa539d2108943').emit('receive_data',data)
+  console.log(data,"data received in server")
+  socket.to(data.room1).emit('receive_data',data)
+  socket.to(data.room2).emit('receive_data',data)
 })
 
   socket.on('disconnect', () => {
-    console.log('A user disconnected',socket.id);
+    console.log('A user disconnected',socket.id); 
   });
 });
 

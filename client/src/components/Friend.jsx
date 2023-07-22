@@ -23,6 +23,7 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage=false}) {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const {_id}=useSelector((state)=>state.user)
+    const senderName=useSelector((state)=>state.user.firstname)
     const token=useSelector((state)=>state.token)
     const friends=useSelector((state)=>state.user.friends)
     const yesFriendsArray=friends.length>0;
@@ -36,15 +37,26 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage=false}) {
     const yourSelf=(friendId===_id);
   
 
-    const joinRoom = () => {
-     {
-        socket.emit("join_room", `${_id}${friendId}` ); 
-        dispatch(setChatName({
-          chatName: { userName: name, room1: `${_id}${friendId}`,room2:`${friendId}${_id}`},
-        })) 
-        
-      }
-    };
+  const joinRoom = async() => {
+    if (socket) {
+     
+      await socket.emit("join_room",`${_id}${friendId}`);
+      await socket.emit("join_room",`${friendId}${_id}`);
+  
+      dispatch(
+        setChatName({
+          chatName: {
+            userName: name,
+            sender:senderName,
+            room1: `${_id}${friendId}`,
+            room2: `${friendId}${_id}`,
+            socket: socket,
+          },
+        })
+      );
+    }
+  };
+  
 
     const patchFriend=async()=>{
        const response= await fetch(`http://localhost:3001/users/${_id}/${friendId}`,{
