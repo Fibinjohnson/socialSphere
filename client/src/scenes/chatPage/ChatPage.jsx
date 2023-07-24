@@ -42,7 +42,7 @@ function ChatPage() {
           />
      </Box>
       ))} 
-      
+   
      </Box>
      <ChatWidget/>
     </Box>

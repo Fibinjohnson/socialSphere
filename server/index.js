@@ -6,6 +6,7 @@ const{verifyToken}=require("./middleware/auth")
 const userRoutes=require("./routes/userRoutes")
 const postRoutes=require("./routes/postRoutes")
 const router=require("./routes/auth")
+const chatRoutes=require('./routes/chatRoutes')
 require("dotenv").config();
 const helmet=require("helmet");
 const morgan=require("morgan");
@@ -20,7 +21,8 @@ const { Server } = require("socket.io");
 const server=http.createServer(app)
 const io = new Server(server);
 
-app.use(cors({  origin: 'http://localhost:3000'}))
+app.use(cors({  origin: 'http://localhost:3000',
+     credentials:true}))
 app.use(cookieParser())
 app.use(express.json());
 app.use(BodyParser.json({ limit:"30mb",extended:true}))
@@ -30,23 +32,32 @@ app.use(helmet.crossOriginResourcePolicy({
 }));
 app.use(BodyParser.urlencoded({limit:"30mb", extended: true }));
 app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
-
+global.onlineUsers=new Map();
+console.log(onlineUsers,"onlineUsers")
 
 io.on('connection', (socket) => {
-  console.log('A user connected in ',socket.id);
-  socket.on("join_room",(data)=>
-  {socket.join(data);
-  console.log("printed data in server:",data)}) 
+  global.chatSocket=socket;
 
-socket.on('send_data',(data)=>{
-  console.log(data,"data received in server")
-  socket.to(data.room1).emit('receive_data',data)
-  socket.to(data.room2).emit('receive_data',data)
+  socket.on("add-user", (userId) => {
+    onlineUsers.set(userId, socket.id);
+    console.log(onlineUsers, "onlineUsers");
+    console.log('User added:', userId, 'Socket ID:', socket.id);
+    console.log('Updated onlineUsers:', onlineUsers);
+  });
+ 
+
+socket.on('send-msg',(data)=>{
+  console.log(data.messageData)
+  console.log('Updated :', onlineUsers);
+  const sendUserSocket=onlineUsers.get('64b637df64efa539d2108943')
+  console.log(sendUserSocket,'send usersocket')
+  if(sendUserSocket){
+    socket.to(sendUserSocket ).emit('receive_data',data.message)
+}
+ 
+
 })
 
-  socket.on('disconnect', () => {
-    console.log('A user disconnected',socket.id); 
-  });
 });
 
 
@@ -70,6 +81,7 @@ app.post('/posts',verifyToken,upload.single("picture"),createPost)
 app.use("/auth",router)
 app.use("/users",userRoutes)
 app.use('/posts',postRoutes)
+app.use('/chats',chatRoutes)
 
 
    connectToDb().then(()=>{console.log("connection successfull")

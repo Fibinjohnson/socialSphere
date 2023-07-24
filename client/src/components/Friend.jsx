@@ -18,7 +18,7 @@ socket.on('connect', () => {
   console.log('Connected to the server.');
 });
 
-function Friend({friendId,name,subtitle,userPicturePath, chatpage=false}) {
+function Friend({friendId,name,subtitle,userPicturePath, chatpage={socket}}) {
     const {palette}=useTheme();
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -35,21 +35,35 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage=false}) {
     const medium=palette.neutral.medium
     const isFriend=arrayFriends.includes(friendId);
     const yourSelf=(friendId===_id);
+    const handleChatClick=async()=>{
+      dispatch(
+        setChatName({
+          chatName: {
+            userName: name,
+            sender:senderName,
+            user: _id,
+            currentChat:friendId,
+            path:userPicturePath
+            
+          },
+        })
+      );
+    }
   
 
   const joinRoom = async() => {
     if (socket) {
      
-      await socket.emit("join_room",`${_id}${friendId}`);
-      await socket.emit("join_room",`${friendId}${_id}`);
+      await socket.emit("add-user",_id);
+    
   
       dispatch(
         setChatName({
           chatName: {
             userName: name,
             sender:senderName,
-            room1: `${_id}${friendId}`,
-            room2: `${friendId}${_id}`,
+            user: _id,
+            currentChat:friendId,
             socket: socket,
           },
         })
@@ -111,7 +125,7 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage=false}) {
                   )}
                 </IconButton>
               )}
-              </Box>):<IconButton onClick={()=>{joinRoom()}}><ChatIcon/></IconButton>}
+              </Box>):<IconButton onClick={handleChatClick}><ChatIcon/></IconButton>}
             </FlexBetween>
           )}
         </>
