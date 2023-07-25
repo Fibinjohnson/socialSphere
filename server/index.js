@@ -32,6 +32,7 @@ app.use(helmet.crossOriginResourcePolicy({
 }));
 app.use(BodyParser.urlencoded({limit:"30mb", extended: true }));
 app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
+
 global.onlineUsers=new Map();
 console.log(onlineUsers,"onlineUsers")
 
@@ -44,18 +45,13 @@ io.on('connection', (socket) => {
     console.log('User added:', userId, 'Socket ID:', socket.id);
     console.log('Updated onlineUsers:', onlineUsers);
   });
- 
-
-socket.on('send-msg',(data)=>{
-  console.log(data.messageData)
-  console.log('Updated :', onlineUsers);
-  const sendUserSocket=onlineUsers.get('64b637df64efa539d2108943')
-  console.log(sendUserSocket,'send usersocket')
-  if(sendUserSocket){
-    socket.to(sendUserSocket ).emit('receive_data',data.message)
+  socket.on('send-msg',(data)=>{
+    console.log('Updated :', onlineUsers);
+    const sendUserSocket=onlineUsers.get(data.to)
+    console.log(sendUserSocket,'send usersocket')
+    if(sendUserSocket){
+    socket.to(sendUserSocket).emit('receive_data',data.messageData)
 }
- 
-
 })
 
 });

@@ -9,16 +9,10 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { setChatName } from "state";
 import Modal from "./Modal";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:3001",{
-    transports: ["websocket"],
-  });
 
-socket.on('connect', () => {
-  console.log('Connected to the server.');
-});
 
-function Friend({friendId,name,subtitle,userPicturePath, chatpage={socket}}) {
+
+function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
     const {palette}=useTheme();
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -50,26 +44,6 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage={socket}}) {
       );
     }
   
-
-  const joinRoom = async() => {
-    if (socket) {
-     
-      await socket.emit("add-user",_id);
-    
-  
-      dispatch(
-        setChatName({
-          chatName: {
-            userName: name,
-            sender:senderName,
-            user: _id,
-            currentChat:friendId,
-            socket: socket,
-          },
-        })
-      );
-    }
-  };
   
 
     const patchFriend=async()=>{

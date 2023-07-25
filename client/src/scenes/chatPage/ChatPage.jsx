@@ -1,6 +1,4 @@
 import { useState ,useEffect} from "react";
-
-import Chat from "components/Chat";
 import ChatWidget from "components/ChatWidget";
 import { useSelector } from "react-redux";
 import Friend from "components/Friend";

@@ -6,7 +6,6 @@ module.exports.getUser = async (req, res) => {
       let database = await connectToDb();
       const { id } = req.params;
 
-      // Validate the 'id' parameter
       if (!ObjectId.isValid(id)) {
           return res.status(400).json({ error: 'Invalid user ID format' });
       }
@@ -37,7 +36,7 @@ module.exports.getAllUsers=async(req,res)=>{
 module.exports.getUserFriends=async(req,res)=>{
     try{
         let database=await connectToDb()
-        const {id}=req.params;
+        const {id}=req.params
         const friendsWithDetails = await database.collection("users").aggregate([
           {
             $match: { _id: new ObjectId(id) } 
@@ -63,10 +62,12 @@ module.exports.getUserFriends=async(req,res)=>{
             }
           }
         ]).toArray();
+        
         res.status(200).json(friendsWithDetails)
       
     }catch(err){
-        res.status(500).json({err:err.message})
+        res.status(500).json({ friendserr:err.message})
+       
     }
 }
 module.exports.addRemoveFriend=async(req,res)=>{

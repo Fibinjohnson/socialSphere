@@ -19,9 +19,14 @@ module.exports.getChat=async(req,res)=>{
     try{
       const database=await connectToDb();
       const {fromId,toId}=req.params;
-      console.log(req.params,'reqparams')
-      const chat=await database.collection('chats').find({'users.from':new ObjectId(fromId),'users.to':new ObjectId(toId)}).toArray();
-      console.log(chat,"chat details of all friend")
+      
+      const chat = await database.collection('chats').find({
+        $or: [
+          {'users.from': new ObjectId(fromId), 'users.to': new ObjectId(toId)},
+          {'users.from': new ObjectId(toId), 'users.to': new ObjectId(fromId)}
+        ]
+      }).toArray();
+      
       res.status(200).json(chat);
     }catch(error){
         res.status(500).json({err:error.message})
