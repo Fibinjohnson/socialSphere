@@ -23,7 +23,7 @@ export const authSlice=createSlice({
     setLogout:(state)=>{
         state.user=null;
         state.token=null;
-        state.allChats=[null];
+        state.allChats=[];
         
     },
     setFriends:(state,action)=>{

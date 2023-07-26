@@ -13,6 +13,7 @@ import io from "socket.io-client";
 
 
 
+
 function ChatWidget() {
   const dispatch=useDispatch();
   const socket=useRef();
@@ -23,14 +24,13 @@ function ChatWidget() {
     const medium=palette.neutral.medium
     const chatName=useSelector((state)=>state.chatName)
     const token=useSelector((state)=>state.token)
-    console.log(chatName,"chatname")
+    const userLoggedin=useSelector((state)=>state.user)
     const [message,setMessage]=useState('');
     const allChats=useSelector((state)=>state.allChats)
-    console.log(allChats,"message list")
     const [scrollTop, setScrollTop] = useState(0);
-    const [receivedData,setReceivedData]=useState('');
-    
-    
+    const [chatMessage,setChatMessage]=useState([])
+
+    console.log(allChats,'allchats')
   
     const postChat=async()=>{
       const response=await fetch(`http://localhost:3001/chats/${chatName.user}/${chatName.currentChat}`,{
@@ -39,23 +39,21 @@ function ChatWidget() {
         'Content-Type': 'application/json'},
         body: JSON.stringify({message})
       })
-      const data=await response.json();
-      console.log(data,"chat data");
+      const data=await response.json(); 
       socket.current.emit('send-msg',{
         to:chatName.currentChat,
         from:chatName.user,
         messageData:message
       })
-      console.log(socket.current,'socket current')
+      const msgs=[...chatMessage]
+      msgs.push({myself:true,message:message})
+      setChatMessage(msgs)
       setMessage('')
     }
-    useEffect(()=>{
-      if(socket.current)
-      {socket.current.on('receive_data',
-      (data)=>{setReceivedData(data);
-        console.log(data,'received data')})}},
-    [receivedData])
-    console.log(receivedData,'received data')
+   const dispatchChat=async()=>{
+    dispatch(setAllChats({allChats:[]}))
+   }
+
     const getChat=async()=>{
       const response=await fetch(`http://localhost:3001/chats/getChats/${chatName.user}/${chatName.currentChat}`,{
         method:'GET',
@@ -63,43 +61,47 @@ function ChatWidget() {
       })
       const data = await response.json();
       console.log(data,"getusers data");
-      dispatch(setAllChats({allChats:data}))
+      const mappedChat=   data.map((chat)=>{
+        return{
+          myself:chat.sender[0]===chatName.user,
+           message:chat.message.text
+        }
+      })
+     
+      dispatch(setAllChats({allChats:mappedChat}))
+
   
     }
-    const notAllChats=allChats[0]===null;
-
-    const mappedChat= !notAllChats && allChats.map((chat)=>{
-      return{
-        myself:chat.sender[0]===chatName.user,
-         message:chat.message.text
-      }
-    })
-
     const handleScroll = event => {
       setScrollTop(event.currentTarget.scrollTop);
     };
 
-
+    useEffect(() => {
+      if (userLoggedin) {
+        socket.current = io.connect("http://localhost:3001", {
+          transports: ["websocket"],
+        });
+        socket.current.emit("add-user", userLoggedin._id);
+      }
+    }, [userLoggedin]);
+    
+    useEffect(() => {
+      if (socket.current) {
+        socket.current.on('receive_data', (data) => {
+          setChatMessage((prev)=> [...prev,{myself:false,message:data}]);
+        });
+      }
+    }, [chatMessage]);
     useEffect(()=>{
-     if(chatName){
-       socket.current = io.connect("http://localhost:3001",{
-       transports: ["websocket"],
-  });
-  socket.current.emit("add-user",chatName.user)
-     }
+       dispatchChat()
     },[chatName])
-
-    // useEffect(()=>{
-    //   if (socket) {
-    //   socket.on('receive_data', (data) => {
-    //     console.log(data, "data");
-    //     setMessageList((list)=>[...list,data])
-    //   });
-    // }},[socket])
 
     useEffect(()=>{
       getChat()
-    },[chatName])
+    },[chatMessage])
+
+
+  
    
   
   return ( 
@@ -121,8 +123,8 @@ function ChatWidget() {
     autoHide
    >
   {
-  mappedChat &&
-  mappedChat.map((chat) =>
+  allChats[0]!==null &&
+  allChats.map((chat) =>
     chat.myself ? (
       <Box marginTop={'20px'}>
         <Typography fontFamily={'initial'}>{chat.message}</Typography>

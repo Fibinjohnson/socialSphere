@@ -34,27 +34,24 @@ app.use(BodyParser.urlencoded({limit:"30mb", extended: true }));
 app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
 
 global.onlineUsers=new Map();
-console.log(onlineUsers,"onlineUsers")
 
 io.on('connection', (socket) => {
-  global.chatSocket=socket;
+  global.chatSocket = socket;
 
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
-    console.log(onlineUsers, "onlineUsers");
-    console.log('User added:', userId, 'Socket ID:', socket.id);
-    console.log('Updated onlineUsers:', onlineUsers);
   });
-  socket.on('send-msg',(data)=>{
-    console.log('Updated :', onlineUsers);
-    const sendUserSocket=onlineUsers.get(data.to)
-    console.log(sendUserSocket,'send usersocket')
-    if(sendUserSocket){
-    socket.to(sendUserSocket).emit('receive_data',data.messageData)
-}
-})
 
+  socket.on('send-msg', (data) => {
+    console.log('Updated:', onlineUsers);
+    const sendUserSocket = onlineUsers.get(data.to);
+    console.log(sendUserSocket, 'send usersocket');
+    if (sendUserSocket) {
+      io.to(sendUserSocket).emit('receive_data', data.messageData); 
+    }
+  });
 });
+
 
 
 /*STORAGE CONFIGIRATION*/

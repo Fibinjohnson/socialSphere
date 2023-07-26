@@ -9,7 +9,6 @@ module.exports.postChat=async(req,res)=>{
        const chat =database.collection('chats').insertOne({message:{text:msg},
         users:{from:new ObjectId(fromId),to:new ObjectId(toId)},
         sender:[new ObjectId(fromId)]})
-       console.log(req.body,messageDetails)
        res.status(200).json({chat})
     }catch(error){
       res.status(500).json({err:error.message})
@@ -26,6 +25,7 @@ module.exports.getChat=async(req,res)=>{
           {'users.from': new ObjectId(toId), 'users.to': new ObjectId(fromId)}
         ]
       }).toArray();
+     
       
       res.status(200).json(chat);
     }catch(error){
