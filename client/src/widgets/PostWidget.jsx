@@ -26,12 +26,11 @@ isProfile=false}) {
     const dispatch=useDispatch();
     const [isComments,setIsComments]=useState(false)
     const loggedInUserId=useSelector((state)=>state.user._id)
+    const user=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
     const [comment,setComment]=useState('');
-    const posts=useSelector((state)=>state.posts)
     const primary=palette.primary.main
     const main=palette.neutral.main
-    const mainMedium=palette.neutral.medium
     const isLiked = likes.includes(loggedInUserId);
     const likeCount=Object.keys(likes).length
     

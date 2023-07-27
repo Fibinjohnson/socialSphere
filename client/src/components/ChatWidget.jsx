@@ -1,15 +1,15 @@
 import React from 'react'
 import {  Box,Divider,Typography,IconButton,useTheme, Input} from '@mui/material'
 import WidgetWrap from './WidgetWrap';
-import { Send } from '@mui/icons-material';
+import { NotificationsNoneRounded, Send } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { useState,useEffect } from 'react';
 import ChatHeader from './chatHeader';
 import Scrollbars from 'react-custom-scrollbars-2';
-import { setAllChats } from 'state';
 import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import io from "socket.io-client";
+
 
 
 
@@ -26,12 +26,11 @@ function ChatWidget() {
     const token=useSelector((state)=>state.token)
     const userLoggedin=useSelector((state)=>state.user)
     const [message,setMessage]=useState('');
-    const allChats=useSelector((state)=>state.allChats)
     const [scrollTop, setScrollTop] = useState(0);
     const [chatMessage,setChatMessage]=useState([])
+    const [allChats,setAllChats]=useState([])
 
-    console.log(allChats,'allchats')
-  
+
     const postChat=async()=>{
       const response=await fetch(`http://localhost:3001/chats/${chatName.user}/${chatName.currentChat}`,{
         method:'POST',
@@ -50,8 +49,16 @@ function ChatWidget() {
       setChatMessage(msgs)
       setMessage('')
     }
+
+   
+    const handleKeyDown=async(event)=>{
+      if(event.key==='Enter'){
+         postChat()
+      }
+    }
+
    const dispatchChat=async()=>{
-    dispatch(setAllChats({allChats:[]}))
+     setAllChats(allChats)
    }
 
     const getChat=async()=>{
@@ -67,12 +74,9 @@ function ChatWidget() {
            message:chat.message.text
         }
       })
-     
-      dispatch(setAllChats({allChats:mappedChat}))
-
-  
+      setAllChats(mappedChat)
     }
-    const handleScroll = event => {
+    const handleScroll = (event) => {
       setScrollTop(event.currentTarget.scrollTop);
     };
 
@@ -92,13 +96,14 @@ function ChatWidget() {
         });
       }
     }, [chatMessage]);
+
     useEffect(()=>{
        dispatchChat()
-    },[chatName])
+    },[userLoggedin])
 
     useEffect(()=>{
       getChat()
-    },[chatMessage])
+    },[chatMessage,chatName])
 
 
   
@@ -126,13 +131,56 @@ function ChatWidget() {
   allChats[0]!==null &&
   allChats.map((chat) =>
     chat.myself ? (
-      <Box marginTop={'20px'}>
-        <Typography fontFamily={'initial'}>{chat.message}</Typography>
-      </Box>
+      <Box
+      marginTop="20px"
+      borderRadius="1.5rem"
+      height="fit-content" 
+      display="flex"
+      flexWrap="wrap" 
+      alignItems="flex-start" 
+      alignContent="flex-start"
+      backgroundColor={primaryLight}
+      width="200px" 
+      overflow="hidden" 
+      p="10px"
+    >
+       <Typography
+        fontFamily="initial"
+        sx={{
+          width: '100%', 
+          wordBreak: 'break-all', 
+          flex: '1 1 100%', 
+        }}
+      >
+        {chat.message}
+      </Typography>
+    </Box>
     ) : (
-      <Box  marginTop={'20px'} width={"800px"} >
-        <Typography sx={{ textAlign:'right'}}>{chat.message}</Typography>
-      </Box>
+      <Box
+      marginTop="20px"
+      borderRadius="1.5rem"
+      height="fit-content" 
+      display="flex"
+      flexWrap="wrap" 
+      alignItems="flex-start" 
+      alignContent="flex-start" // Align items with space between them
+      backgroundColor={primaryLight}
+      width="200px" // You can adjust the width as needed
+      overflow="hidden" // Hide the overflowing text
+      p="10px"
+      marginLeft={'73%'}
+    >
+       <Typography
+        fontFamily="initial"
+        sx={{
+          width: '100%', // Set a width to control when text starts wrapping
+          wordBreak: 'break-all', // Allow words to break and wrap
+          flex: '1 1 100%', // Let the text occupy all available space on a new line
+        }}
+      >
+        {chat.message}
+      </Typography>
+    </Box>
     )
   )
 }
@@ -140,7 +188,7 @@ function ChatWidget() {
   </Scrollbars>
    
      <Box position={'absolute'} bottom={"15px"} display="flex">
-     <Input placeholder='Type somthing here...' onChange={(e)=>{setMessage(e.target.value)}} value={message} style={{ width: "750px" }} type='text'></Input>
+     <Input placeholder='Type somthing here...' onChange={(e)=>{setMessage(e.target.value)}} onKeyDown={handleKeyDown} value={message} style={{ width: "750px" }} type='text'></Input>
      <IconButton onClick={()=>{postChat()}}><Send/></IconButton>
      </Box>
      </WidgetWrap>

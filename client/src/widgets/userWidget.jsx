@@ -15,6 +15,7 @@ const UserWidget=({userId,picturePath})=>{
     const token =useSelector((state)=>
         state.token
     )
+    console.log(user,'require user')
     const dark=palette.neutral.dark;
     const medium=palette.neutral.medium;
     const main=palette.neutral.main;
@@ -47,15 +48,15 @@ const UserWidget=({userId,picturePath})=>{
         occupation,
         viewedprofile,
         impressions,
-        friends
+        friends,picture
     }=user;
- 
+ //
 return(
     <WidgetWrap>
-        <FlexBetween gap={"0.5rem"} pb={"1.1rem"} onClick={()=>{navigate(`/profile/${userId}`)}}>
+        <FlexBetween gap={"0.5rem"} pb={"1.1rem"} >
          <FlexBetween>
-            <UserImage image={picturePath}/>
-            <Box>
+            <UserImage image={picture} />
+            <Box onClick={()=>{navigate(`/profile/${userId}`)}}>
                 <Typography variant="h4" color={dark} fontWeight="500"  sx={{
                     "$ :hover":
                     {color:palette.primary.light,
@@ -69,7 +70,7 @@ return(
             </Box>
            
          </FlexBetween>
-         <ManageAccountsOutlined/>
+         <ManageAccountsOutlined onClick={()=>{navigate(`/profile/editProfile/${userId}`)}}/>
         </FlexBetween>
          <Divider/>
          {/**second Row */}

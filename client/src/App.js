@@ -8,6 +8,7 @@ import { CssBaseline,ThemeProvider } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import {themeSettings} from "./themes"
 import ChatPage from "scenes/chatPage/ChatPage";
+import EditPage from "scenes/EditPage/EditPage";
 
 function App() {
   const mode=useSelector((state)=>state.mode)
@@ -25,6 +26,7 @@ function App() {
          <Route path="/home" element={isAuth ?<HomePage/>:<Navigate to={"/"}/>}/>
          <Route path="/profile/:userId" element={isAuth ?<ProfilePage/>:<Navigate to={"/"}/>}/>
          <Route path="/home/chat" element={isAuth?<ChatPage/>:<Navigate to={"/"}/>} />
+         <Route path="/profile/editProfile/:userId" element={isAuth?<EditPage/>:<Navigate to={"/"}/>} />
         
         </Routes>
       </BrowserRouter>

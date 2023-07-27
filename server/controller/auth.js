@@ -1,6 +1,7 @@
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
-const {connectToDb}=require("../connection/connection")
+const {connectToDb}=require("../connection/connection");
+const { ObjectId } = require("mongodb");
 module.exports.register=async(req,res)=>{
     try{
         
@@ -41,6 +42,28 @@ module.exports.register=async(req,res)=>{
        
     }
 
+},
+module.exports.editProfile=async(req,res)=>{
+  try{
+     const database= await connectToDb();
+     const {userId}=req.params;
+     console.log(req.body,'req')
+     const updateQuery = {
+        $set: {
+          firstname: req.body.firstname,
+          lastname: req.body.lastname,
+          picture: req.body.picture,
+        },
+      };
+      const result = await database.collection('users').updateOne({ _id: new ObjectId(userId) }, updateQuery);
+      const post=await database.collection('posts').updateMany({userId: new ObjectId(userId)},{$set:{userPicturePath:req.body.picture}})
+      const updatedUser = await database.collection('users').findOne({ _id: new ObjectId(userId) });
+      res.status(200).json(updatedUser)
+        
+      
+  }catch(err){
+    res.status(500).json({editErr:err.message})
+  }
 },
 module.exports.login=async(req,res)=>{
     try{

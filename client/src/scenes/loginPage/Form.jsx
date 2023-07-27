@@ -65,20 +65,15 @@ function Form() {
   
   const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
     method: "POST",
-    // headers: {
-    //   'Content-Type': "multipart/form-data"
-    // },
     body: formData
   });
-  
    const savedUser=await savedUserResponse.json();
-
-   
    onSubmitProps.resetForm(); 
    if(savedUser){
     setPageType("login")
    }
   }
+
 
   const login=async(values,onSubmitProps)=>{
     const loggedInResponse=await fetch("http://localhost:3001/auth/login",
@@ -97,9 +92,7 @@ function Form() {
       })
     )
     navigate("/home")
-   }
-
-  }
+   }}
 
   return (
     <Formik
