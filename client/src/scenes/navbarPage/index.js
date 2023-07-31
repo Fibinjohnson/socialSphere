@@ -58,7 +58,7 @@ const NavPage=()=>{
                 },
               }}
             >
-              SocioSphere
+               connect SocioSphere 
             </Typography>
             {isNonMobileScreen && (
               
