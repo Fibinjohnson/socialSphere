@@ -5,21 +5,44 @@ import { Home } from "@mui/icons-material";
 import FlexBetween from "components/Flexbetween";
 import { useDispatch,useSelector } from "react-redux";
 import { setMode,setLogout } from "state";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const NavPage=()=>{
     const [isMobileMenuToggled,setIsMobileMenuToggled]=useState(false);
     const navigate=useNavigate();
     const dispatch=useDispatch();
     const theme=useTheme();
+    const token=useSelector((state)=>state.token)
     const neutralLight=theme.palette.neutral.light;
     const dark=theme.palette.neutral.dark;
     const background=theme.palette.background.default;
     const primaryLight=theme.palette.primary.light;
     const alt=theme.palette.primary.alt;
     const user=useSelector((state)=>state.user);
-    
+    const [searchValue,setSearchValue]=useState('')
     const fullname=`${user.firstname} ${user.lastname}`
     const isNonMobileScreen=useMediaQuery("(min-width:1000px)")
+    const userId=useSelector((state)=>state.user._id)
+    const [searchResult,setSearchResult]=useState([])
+
+    const handleSearch=async()=>{
+      const url = new URL(`http://localhost:3001/users/${userId}/search`);
+          url.searchParams.append('q', searchValue);
+          try{
+            const response=await fetch(url,{
+              method:'GET',
+              headers:{Authorization:`Bearer ${token}`}
+            })
+           const data=await response.json()
+           setSearchValue('');
+           setSearchResult(data)
+
+          }catch(err){
+             console.log('somthing error occured')
+          }
+
+    }
+    console.log(searchResult,'search result')
+
     return (
         <FlexBetween padding="1rem 6%" backgroundColor={alt}>
           <FlexBetween gap="1.75rem">
@@ -35,23 +58,27 @@ const NavPage=()=>{
                 },
               }}
             >
-              Sociopedia
+              SocioSphere
             </Typography>
             {isNonMobileScreen && (
+              
               <FlexBetween
                 backgroundColor={neutralLight}
                 borderRadius="9px"
                 gap="3rem"
                 padding="0.1rem 1.5rem"
               >
-                <InputBase placeholder="Search..." />
+                <InputBase placeholder="Search..." onChange={(e)=>{setSearchValue(e.target.value)}} value={searchValue}/>
                 <IconButton>
-                  <Search />
-                </IconButton>
+                  <Search onClick={handleSearch}/>
+                </IconButton>  
               </FlexBetween>
+           
+              
             )}
+           
           </FlexBetween>
-    
+          <Box>hello</Box>    
           {/* DESKTOP NAV */}
           {isNonMobileScreen ? (
             <FlexBetween gap="2rem">
