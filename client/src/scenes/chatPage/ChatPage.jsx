@@ -12,8 +12,6 @@ function ChatPage() {
     
     const token=useSelector((state)=>state.token)
     const [userFriends, setUserFriends] = useState([]);
-    const [room, setRoom] = useState("");
-    const [showChat, setShowChat] = useState(false);
   
      
 

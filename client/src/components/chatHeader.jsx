@@ -1,5 +1,4 @@
 import { Box,Typography,useTheme } from "@mui/material"
-import { useSelector,useDispatch } from "react-redux"
 import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImage";
 import { useNavigate } from "react-router-dom";

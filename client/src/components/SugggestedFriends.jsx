@@ -1,13 +1,10 @@
 import React from 'react'
-import { PersonAddOutlined,PersonRemoveOutlined } from "@mui/icons-material"
-import { Box,IconButton,Typography,useTheme } from "@mui/material"
+import { Box,Typography,useTheme } from "@mui/material"
 import { useSelector,useDispatch } from "react-redux"
-import { setFriends } from "state"
 import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImage";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
-import Modal from "./Modal";
 
 function SugggestedFriends() {
     const {palette}=useTheme();
@@ -15,7 +12,6 @@ function SugggestedFriends() {
     const navigate=useNavigate();
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
-    const primaryDark=palette.primary.dark
     const main=palette.neutral.main
     const medium=palette.neutral.medium
    
@@ -27,10 +23,10 @@ function SugggestedFriends() {
     
 const getAllUsers = async () => {
   try {
-    const response = await fetch(`http://localhost:3001/users/allusers/${_id}`, {
+    const response = await fetch(`http://localhost:3001/users/${_id}/allusers`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`, // Set the Authorization header correctly
+        Authorization: `Bearer ${token}`,
       },
     });
     const data = await response.json();

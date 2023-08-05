@@ -24,7 +24,7 @@ module.exports.getUser = async (req, res) => {
 };
 module.exports.getAllUsers=async(req,res)=>{
     try{
-      const {id}=req.params
+     
      let database=await connectToDb();
      const allUsers=await database.collection("users").find().toArray();
      res.status(200).json(allUsers)

@@ -1,7 +1,7 @@
 import React from 'react'
-import {  Box,Divider,Typography,IconButton,useTheme, Input} from '@mui/material'
+import {  Box,Typography,IconButton,useTheme, Input} from '@mui/material'
 import WidgetWrap from './WidgetWrap';
-import { NotificationsNoneRounded, Send } from '@mui/icons-material';
+import { Send } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { useState,useEffect } from 'react';
 import ChatHeader from './chatHeader';
@@ -15,12 +15,10 @@ import io from "socket.io-client";
 
 
 function ChatWidget() {
-  const dispatch=useDispatch();
+  const dispatch=useDispatch()
   const socket=useRef();
     const {palette}=useTheme();
     const primaryLight=palette.primary.light
-    const primaryDark=palette.primary.dark
-    const main=palette.neutral.main
     const medium=palette.neutral.medium
     const chatName=useSelector((state)=>state.chatName)
     const token=useSelector((state)=>state.token)

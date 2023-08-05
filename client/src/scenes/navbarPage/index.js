@@ -200,3 +200,4 @@ const NavPage=()=>{
       );
 }
 export default NavPage;
+//tuturial of kubernetics
