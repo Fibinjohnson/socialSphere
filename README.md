@@ -1,5 +1,5 @@
 # socialSphere
-fully social media functional Application
+fully functional social media functional Application
 - User Registration and Login: New users can register, and existing users can log in to their accounts.
 
 - Profile Management: Users can create and manage their profiles, including profile pictures, bios, and other details.
