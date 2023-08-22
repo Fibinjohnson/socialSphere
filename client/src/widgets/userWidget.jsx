@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserWidget=({userId,picturePath})=>{
+const UserWidget=({userId})=>{
     const [user,setUser]=useState(null);
     const {palette}=useTheme();
     const navigate=useNavigate();
@@ -50,7 +50,7 @@ const UserWidget=({userId,picturePath})=>{
         impressions,
         friends,picture
     }=user;
- //
+ 
 return(
     <WidgetWrap>
         <FlexBetween gap={"0.5rem"} pb={"1.1rem"} >
