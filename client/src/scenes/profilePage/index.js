@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import NavPage from "scenes/navbarPage";
 import FriendListWidget from "widgets/FriendListWidget";
 import PostsWidget from "widgets/PostsWidget";
-import UserWidget from "widgets/UserWidget";
+import UserWidgets from "widgets/UserWidgets";
 const ProfilePage=()=>{
     const [user,setUser]=useState(null)
     const {userId}=useParams();
@@ -34,7 +34,7 @@ const ProfilePage=()=>{
     justifyContent="center"
   >
     <Box flexBasis={isNonMobileScreen ? "26%" : undefined}>
-      <UserWidget userId={userId} picturePath={user.picture}></UserWidget>
+      <UserWidgets userId={userId} picturePath={user.picture}></UserWidgets>
       <Box m={"2rem 0"}/>
       <FriendListWidget userId={userId}></FriendListWidget>
     </Box>

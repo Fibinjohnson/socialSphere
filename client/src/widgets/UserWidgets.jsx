@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const UserWidget=({userId})=>{
+const UserWidgets=({userId})=>{
     const [user,setUser]=useState(null);
     const {palette}=useTheme();
     const navigate=useNavigate();
@@ -129,4 +129,4 @@ return(
     </WidgetWrap>
 )
 }
-export default UserWidget;
+export default UserWidgets;

@@ -1,4 +1,4 @@
-import PostsWidget from './PostsWidget'
+
 import { ChatBubbleOutlineOutlined,FavoriteBorderOutlined,FavoriteOutlined,ShareOutlined } from '@mui/icons-material'
 import { Box,Divider,Typography,IconButton,useTheme, Input } from '@mui/material'
 import FlexBetween from 'components/Flexbetween'

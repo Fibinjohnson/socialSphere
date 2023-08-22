@@ -1,6 +1,6 @@
 import { Box ,useMediaQuery} from "@mui/material";
 import NavPage from "scenes/navbarPage";
-import UserWidget from "widgets/UserWidget";
+import UserWidgets from "widgets/UserWidgets";
 import MyPostsWidgets from "widgets/MyPostsWidgets";
 import PostsWidget from "widgets/PostsWidget";
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ const HomePage=()=>{
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreen ? "26%" : undefined}>
-          <UserWidget userId={_id} picturePath={picture} ></UserWidget>
+          <UserWidgets userId={_id} picturePath={picture} ></UserWidgets>
         </Box>
         <Box
           flexBasis={isNonMobileScreen ? "42%" : undefined}
