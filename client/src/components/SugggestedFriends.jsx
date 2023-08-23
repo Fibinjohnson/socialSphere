@@ -2,7 +2,7 @@ import React from 'react'
 import { Box,Typography,useTheme } from "@mui/material"
 import { useSelector,useDispatch } from "react-redux"
 import FlexBetween from "./Flexbetween";
-import UserImage from "./UserImage";
+import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 

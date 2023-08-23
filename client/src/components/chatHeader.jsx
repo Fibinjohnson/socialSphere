@@ -1,6 +1,6 @@
 import { Box,Typography,useTheme } from "@mui/material"
 import FlexBetween from "./Flexbetween";
-import UserImage from "./UserImage";
+import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
 
 

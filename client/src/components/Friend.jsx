@@ -4,7 +4,7 @@ import ChatIcon from '@mui/icons-material/Chat';
 import { useSelector,useDispatch } from "react-redux"
 import { setFriends } from "state"
 import FlexBetween from "./Flexbetween";
-import UserImage from "./UserImage";
+import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { setChatName } from "state";
