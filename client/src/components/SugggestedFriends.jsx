@@ -8,7 +8,6 @@ import { useState,useEffect } from "react";
 
 function SugggestedFriends() {
     const {palette}=useTheme();
-    const dispatch=useDispatch();
     const navigate=useNavigate();
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)

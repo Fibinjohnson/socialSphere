@@ -20,8 +20,6 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
     const senderName=useSelector((state)=>state.user.firstname)
     const token=useSelector((state)=>state.token)
     const friends=useSelector((state)=>state.user.friends)
-    console.log(useSelector((state)=>state.user))
-    console.log(friends,"all friend list")
     const yesFriendsArray=friends.length>0;
     const arrayFriends=yesFriendsArray ?friends:friends 
     const [openModal,setOpenModal]=useState(false)

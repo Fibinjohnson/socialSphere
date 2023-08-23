@@ -15,8 +15,7 @@ const UserWidgets=({userId})=>{
     const token =useSelector((state)=>
         state.token
     )
-    
-    console.log(user,'require user')
+
     const dark=palette.neutral.dark;
     const medium=palette.neutral.medium;
     const main=palette.neutral.main;
@@ -34,8 +33,10 @@ const UserWidgets=({userId})=>{
         }
      
     };
+  
     useEffect(()=>{
         getUser();
+          // eslint-disable-next-line react-hooks/exhaustive-deps
     },[userId])
 
 

@@ -1,4 +1,3 @@
-
 import { ChatBubbleOutlineOutlined,FavoriteBorderOutlined,FavoriteOutlined,ShareOutlined } from '@mui/icons-material'
 import { Box,Divider,Typography,IconButton,useTheme, Input } from '@mui/material'
 import FlexBetween from 'components/Flexbetween'
@@ -6,7 +5,7 @@ import Friend from 'components/Friend';
 import WidgetWrap from 'components/WidgetWrap';
 import { useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux'
-import { setPost,setPosts } from 'state'
+import { setPost} from 'state'
 import SendIcon from '@mui/icons-material/Send';
 
 
@@ -26,7 +25,6 @@ isProfile=false}) {
     const dispatch=useDispatch();
     const [isComments,setIsComments]=useState(false)
     const loggedInUserId=useSelector((state)=>state.user._id)
-    const user=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
     const [comment,setComment]=useState('');
     const primary=palette.primary.main

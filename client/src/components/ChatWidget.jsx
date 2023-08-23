@@ -65,7 +65,6 @@ function ChatWidget() {
         headers:{Authorization:`Bearer ${token}`}
       })
       const data = await response.json();
-      console.log(data,"getusers data");
       const mappedChat=   data.map((chat)=>{
         return{
           myself:chat.sender[0]===chatName.user,

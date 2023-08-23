@@ -7,13 +7,9 @@ import { Box } from "@mui/material";
 
 
 function ChatPage() {
-    const friends=useSelector((state)=>state.user.friends)
     const loggedInUser=useSelector((state)=>state.user)
-    
     const token=useSelector((state)=>state.token)
     const [userFriends, setUserFriends] = useState([]);
-  
-     
 
     const getFriends=async()=>{
       const response=await fetch(`http://localhost:3001/users/${loggedInUser._id}/friends`,{

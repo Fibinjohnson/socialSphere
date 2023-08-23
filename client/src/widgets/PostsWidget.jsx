@@ -6,7 +6,6 @@ import PostWidget from "./PostWidget";
 const PostsWidget=({userId,isProfile=false})=>{
     const dispatch=useDispatch();
     const posts=useSelector((state)=>state.posts)
-    console.log(posts)
     const isPosts=posts.length>0;
     const token=useSelector((state)=>state.token)
     const getPosts=async()=>{
@@ -40,9 +39,12 @@ const PostsWidget=({userId,isProfile=false})=>{
     useEffect(()=>{
         if(isProfile){
             getUserPosts()
+               // eslint-disable-next-line react-hooks/exhaustive-deps
         }else{
             getPosts()
+               // eslint-disable-next-line react-hooks/exhaustive-deps
         }
+         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[userId])
     return(
         <>

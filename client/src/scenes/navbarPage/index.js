@@ -41,7 +41,7 @@ const NavPage=()=>{
           }
 
     }
-    console.log(searchResult,'search result')
+  
 
     return (
         <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -58,7 +58,7 @@ const NavPage=()=>{
                 },
               }}
             >
-               connect SocioSphere 
+                SocialSphere 
             </Typography>
             {isNonMobileScreen && (
               
@@ -78,7 +78,7 @@ const NavPage=()=>{
             )}
            
           </FlexBetween>
-          <Box>hello</Box>    
+           
           {/* DESKTOP NAV */}
           {isNonMobileScreen ? (
             <FlexBetween gap="2rem">
