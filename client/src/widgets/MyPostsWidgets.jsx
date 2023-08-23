@@ -1,7 +1,7 @@
 
 import { EditOutlined,DeleteOutlined ,ImageOutlined,AttachFileOutlined,GifBoxOutlined,MicOutlined,MoreHorizOutlined} from "@mui/icons-material"
 import { Typography ,Box,useTheme,Button,InputBase,IconButton,useMediaQuery,Divider} from "@mui/material"
-import UserImage from "components/UserImage";
+import UserImage from "components/UserImages";
 import FlexBetween from "components/Flexbetween";
 import Dropzone from "react-dropzone";
 import { useState } from "react";

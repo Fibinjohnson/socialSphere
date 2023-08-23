@@ -1,6 +1,6 @@
 import { ManageAccountsOutlined,LocationOnOutlined,WorkOutlineOutlined, EditOffOutlined } from "@mui/icons-material";
 import { Box,Typography,useTheme,Divider} from "@mui/material";
-import UserImage from "components/UserImage";
+import UserImage from "components/UserImages";
 import FlexBetween from "components/Flexbetween";
 import SugggestedFriends from "components/SugggestedFriends";
 import WidgetWrap from "components/WidgetWrap";
