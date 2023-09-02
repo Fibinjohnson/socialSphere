@@ -26,8 +26,8 @@ function ChatPage() {
     <Box display={"flex"} justifyContent={"space-between"}>
     <Box p={"20px"} display={"flex"} flexDirection={"column"}>
      {userFriends && userFriends.map((userFriend)=>(
-      <Box pr={"12px"} paddingBottom={"12px"}>
-      <Friend friendId={userFriend._id} 
+      <Box key={userFriend._id} pr={"12px"} paddingBottom={"12px"}>
+      <Friend  friendId={userFriend._id} 
           name={`${userFriend.firstname} ${userFriend.lastname}`} 
           userPicturePath={userFriend.picture} 
             chatpage

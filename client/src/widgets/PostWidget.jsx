@@ -30,6 +30,7 @@ isProfile=false}) {
     const primary=palette.primary.main
     const main=palette.neutral.main
     const isLiked = likes.includes(loggedInUserId);
+    console.log(likes,'jjjjjjjjj')
     const likeCount=Object.keys(likes).length
     
 

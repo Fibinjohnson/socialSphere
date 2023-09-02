@@ -61,8 +61,6 @@ function Form() {
    }
    
    formData.append("picture",values.picture.name)
- 
-  
   const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
     method: "POST",
     body: formData

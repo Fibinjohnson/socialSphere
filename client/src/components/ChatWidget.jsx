@@ -15,11 +15,10 @@ import io from "socket.io-client";
 
 
 function ChatWidget() {
-  const dispatch=useDispatch()
+  
   const socket=useRef();
     const {palette}=useTheme();
     const primaryLight=palette.primary.light
-    const medium=palette.neutral.medium
     const chatName=useSelector((state)=>state.chatName)
     const token=useSelector((state)=>state.token)
     const userLoggedin=useSelector((state)=>state.user)
@@ -27,6 +26,7 @@ function ChatWidget() {
     const [scrollTop, setScrollTop] = useState(0);
     const [chatMessage,setChatMessage]=useState([])
     const [allChats,setAllChats]=useState([])
+   
 
 
     const postChat=async()=>{
@@ -37,6 +37,7 @@ function ChatWidget() {
         body: JSON.stringify({message})
       })
       const data=await response.json(); 
+      
       socket.current.emit('send-msg',{
         to:chatName.currentChat,
         from:chatName.user,
@@ -126,9 +127,10 @@ function ChatWidget() {
    >
   {
   allChats[0]!==null &&
-  allChats.map((chat) =>
+  allChats.map((chat,index) =>
     chat.myself ? (
       <Box
+      key={index}
       marginTop="20px"
       borderRadius="1.5rem"
       height="fit-content" 
@@ -151,9 +153,10 @@ function ChatWidget() {
       >
         {chat.message}
       </Typography>
-    </Box>
+    </Box>    
     ) : (
       <Box
+      key={index}
       marginTop="20px"
       borderRadius="1.5rem"
       height="fit-content" 

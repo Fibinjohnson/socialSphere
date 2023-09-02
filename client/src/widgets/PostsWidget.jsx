@@ -3,6 +3,7 @@ import { useSelector,useDispatch } from "react-redux";
 import { setPosts} from "state";
 import PostWidget from "./PostWidget";
 
+
 const PostsWidget=({userId,isProfile=false})=>{
     const dispatch=useDispatch();
     const posts=useSelector((state)=>state.posts)

@@ -8,7 +8,6 @@ module.exports.verifyToken = async (req, res, next) => {
     if (!token) {
       console.log("token denied")
       return res.status(403).send("Access Denied");
-      
     }
 
     if (token.startsWith("Bearer ")) {
