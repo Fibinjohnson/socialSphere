@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import { useState,useEffect } from 'react';
 import ChatHeader from './chatHeader';
 import Scrollbars from 'react-custom-scrollbars-2';
-import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import io from "socket.io-client";
 import config from '../config'
@@ -81,7 +80,7 @@ function ChatWidget() {
 
     useEffect(() => {
       if (userLoggedin) {
-        socket.current = io.connect("http://localhost:3001", {
+        socket.current = io.connect(`${config.CHAT_SERVER}`, {
           transports: ["websocket"],
         });
         socket.current.emit("add-user", userLoggedin._id);

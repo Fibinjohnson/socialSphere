@@ -38,6 +38,7 @@ global.onlineUsers=new Map();
 
 io.on('connection', (socket) => {
   global.chatSocket = socket;
+  console.log(socket,'socket')
 
   socket.on("add-user", (userId) => {
     onlineUsers.set(userId, socket.id);
@@ -52,7 +53,6 @@ io.on('connection', (socket) => {
   });
 });
 
-console.log(__dirname)
 
 /*STORAGE MULTER*/
 const storage = multer.diskStorage({
@@ -80,10 +80,7 @@ app.use('/api/chats',chatRoutes)
 connectToDb()
 .then(() => {
   console.log("Connection successful");
-  
-  
   const port = process.env.PORT || 3001;
-  
   server.listen(port, async () => {
     console.log(`App is listening at port ${port}`);
   });
