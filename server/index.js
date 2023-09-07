@@ -32,7 +32,7 @@ app.use(helmet.crossOriginResourcePolicy({
     policy:"cross-origin"
 }));
 app.use(BodyParser.urlencoded({limit:"30mb", extended: true }));
-app.use("/assets", express.static(path.join(__dirname, "public", "assets")));
+app.use("/api/assets", express.static(path.join(__dirname,  "public", "assets")));
 
 global.onlineUsers=new Map();
 
@@ -46,14 +46,13 @@ io.on('connection', (socket) => {
   socket.on('send-msg', (data) => {
     console.log('Updated:', onlineUsers);
     const sendUserSocket = onlineUsers.get(data.to);
-    console.log(sendUserSocket, 'send usersocket');
     if (sendUserSocket) {
       io.to(sendUserSocket).emit('receive_data', data.messageData); 
     }
   });
 });
 
-
+console.log(__dirname)
 
 /*STORAGE MULTER*/
 const storage = multer.diskStorage({
@@ -70,22 +69,28 @@ const storage = multer.diskStorage({
   const upload = multer({ storage: storage })
   
 
-app.post("/auth/register",upload.single("picture"),register)
-app.patch('/auth/edit/:userId',upload.single('picture'),editProfile)
-app.post('/posts',verifyToken,upload.single("picture"),createPost)
-app.use("/auth",router)
-app.use("/users",userRoutes)
-app.use('/posts',postRoutes)
-app.use('/chats',chatRoutes)
+app.post("/api/auth/register",upload.single("picture"),register)
+app.patch('/api/auth/edit/:userId',upload.single('picture'),editProfile)
+app.post('/api/posts',verifyToken,upload.single("picture"),createPost)
+app.use("/api/auth",router)
+app.use("/api/users",userRoutes)
+app.use('/api/posts',postRoutes)
+app.use('/api/chats',chatRoutes)
 
+connectToDb()
+.then(() => {
+  console.log("Connection successful");
+  
+  
+  const port = process.env.PORT || 3001;
+  
+  server.listen(port, async () => {
+    console.log(`App is listening at port ${port}`);
+  });
+})
+.catch((error) => {
+  console.error(error, "Error");
+});
 
-   connectToDb().then(()=>{console.log("connection successfull")
-    server.listen(3001||process.env.PORT,async()=>{
-     
-      console.log("app is listening at port 3001")})
-    
-   }).catch((error)=>{
-    console.log(error,":error")
-   })
     
 

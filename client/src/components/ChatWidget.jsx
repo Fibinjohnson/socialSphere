@@ -9,7 +9,7 @@ import Scrollbars from 'react-custom-scrollbars-2';
 import { useDispatch } from 'react-redux';
 import { useRef } from 'react';
 import io from "socket.io-client";
-
+import config from '../config'
 
 
 
@@ -26,11 +26,12 @@ function ChatWidget() {
     const [scrollTop, setScrollTop] = useState(0);
     const [chatMessage,setChatMessage]=useState([])
     const [allChats,setAllChats]=useState([])
+  
    
 
 
     const postChat=async()=>{
-      const response=await fetch(`http://localhost:3001/chats/${chatName.user}/${chatName.currentChat}`,{
+      const response=await fetch(`${config.API_SERVER}/chats/${chatName.user}/${chatName.currentChat}`,{
         method:'POST',
         headers:{Authorization:`Bearer ${token}`,
         'Content-Type': 'application/json'},
@@ -61,7 +62,7 @@ function ChatWidget() {
    }
 
     const getChat=async()=>{
-      const response=await fetch(`http://localhost:3001/chats/getChats/${chatName.user}/${chatName.currentChat}`,{
+      const response=await fetch(`${config.API_SERVER}/chats/getChats/${chatName.user}/${chatName.currentChat}`,{
         method:'GET',
         headers:{Authorization:`Bearer ${token}`}
       })

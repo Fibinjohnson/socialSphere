@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { setLogin } from 'state';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'components/Flexbetween';
-
+import config from '../../config'
 
  const registerScema=yup.object().shape({
   firstname:yup.string().required("required"),
@@ -61,7 +61,7 @@ function Form() {
    }
    
    formData.append("picture",values.picture.name)
-  const savedUserResponse = await fetch("http://localhost:3001/auth/register", {
+  const savedUserResponse = await fetch(`${config.API_SERVER}/auth/register`, {
     method: "POST",
     body: formData
   });
@@ -74,7 +74,7 @@ function Form() {
 
 
   const login=async(values,onSubmitProps)=>{
-    const loggedInResponse=await fetch("http://localhost:3001/auth/login",
+    const loggedInResponse=await fetch(`${config.API_SERVER}/auth/login`,
    {
     method:"POST",
     headers:{"Content-Type":"application/json"},

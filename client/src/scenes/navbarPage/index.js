@@ -6,6 +6,7 @@ import FlexBetween from "components/Flexbetween";
 import { useDispatch,useSelector } from "react-redux";
 import { setMode,setLogout } from "state";
 import { useNavigate } from "react-router-dom";
+import config from '../../config'
 const NavPage=()=>{
     const [isMobileMenuToggled,setIsMobileMenuToggled]=useState(false);
     const navigate=useNavigate();
@@ -25,7 +26,7 @@ const NavPage=()=>{
     const [searchResult,setSearchResult]=useState([])
 
     const handleSearch=async()=>{
-      const url = new URL(`http://localhost:3001/users/${userId}/search`);
+      const url = new URL(`${config.API_SERVER}/users/${userId}/search`);
           url.searchParams.append('q', searchValue);
           try{
             const response=await fetch(url,{

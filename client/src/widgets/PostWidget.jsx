@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { useDispatch,useSelector } from 'react-redux'
 import { setPost} from 'state'
 import SendIcon from '@mui/icons-material/Send';
-
+import config from '../config'
 
 
 function PostWidget({ 
@@ -34,7 +34,7 @@ isProfile=false}) {
     
 
     const patchLike=async()=>{
-      const response=await fetch(`http://localhost:3001/posts/${PostId}/like`,{
+      const response=await fetch(`${config.API_SERVER}/posts/${PostId}/like`,{
         method:"PATCH",
         headers:{"Authorization":`Bearer ${token}`,
         "Content-Type":"application/json"},
@@ -46,7 +46,7 @@ isProfile=false}) {
     }
 
     const patchComment=async()=>{
-      const response=await fetch(`http://localhost:3001/posts/${PostId}/comment`,{
+      const response=await fetch(`${config.API_SERVER}/posts/${PostId}/comment`,{
         method:"PATCH",
         headers:{"Authorization":`Bearer ${token}`,
             "Content-Type":"application/json"},
@@ -74,7 +74,7 @@ isProfile=false}) {
             height="auto"
             alt="post"
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-            src={`http://localhost:3001/assets/${picturePath}`}
+            src={`${config.API_SERVER}/assets/${picturePath}`}
           />
         )}
         <FlexBetween mt="0.25rem">

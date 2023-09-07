@@ -1,4 +1,4 @@
-
+import config from '../../config'
 import {Box,Button,TextField,useMediaQuery,Typography,useTheme} from "@mui/material"
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Formik } from 'formik';
@@ -39,7 +39,7 @@ import { setEditeduser } from 'state';
         formData.append(value,values[value])
         }
         formData.append("picture",values.picture.name)
-        const editUserResponse = await fetch(`http://localhost:3001/auth/edit/${userId}`, {
+        const editUserResponse = await fetch(`${config.API_SERVER}/auth/edit/${userId}`, {
         method: "PATCH",
         body: formData
   });

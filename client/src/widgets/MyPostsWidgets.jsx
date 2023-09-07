@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { setPosts    } from "state";
 import WidgetWrap from "components/WidgetWrap";
-
+import config from "config";
 
 
 
@@ -33,7 +33,7 @@ const MyPostsWidgets=({picturePath}) =>{
             formData.append("picturePath",image.path)
         }
         
-        const response=await fetch(`http://localhost:3001/posts`,{
+        const response=await fetch(`${config.API_SERVER}/posts`,{
             method:"POST",
             headers:{Authorization:`Bearer ${token}`},
             body:formData,

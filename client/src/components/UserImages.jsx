@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import React from 'react'
+import config from '../config';
 
 const UserImage=({image,size="60px"}) =>{
   return (
@@ -7,7 +8,7 @@ const UserImage=({image,size="60px"}) =>{
     <img style={{objectFit:"cover",borderRadius:"50%"}}
     width={size} height={size} 
     alt={"users"}
-    src={`http://localhost:3001/assets/${image}`}>
+    src={`${config.API_SERVER}/assets/${image}`}>
 
     </img>
 

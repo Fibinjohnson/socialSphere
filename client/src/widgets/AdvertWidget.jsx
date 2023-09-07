@@ -1,7 +1,7 @@
 import { Typography,useTheme } from "@mui/material"
 import FlexBetween from "components/Flexbetween"
 import WidgetWrap from "components/WidgetWrap"
-
+import config from '../config'
 
 function AdvertWidget() {
     const {palette}=useTheme();
@@ -22,7 +22,7 @@ function AdvertWidget() {
   width={"100%"}
   height="auto"
   alt="Advert"
-  src={'http://localhost:3001/assets/advertisement.jpg'}
+  src={`${config.API_SERVER}/assets/advertisement.jpg`}
   style={{ borderRadius: "0.75rem", margin: "0.75rem 0" }}
 />
 

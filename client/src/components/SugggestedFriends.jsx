@@ -5,6 +5,7 @@ import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
+import config from '../config'
 
 function SugggestedFriends() {
     const {palette}=useTheme();
@@ -22,7 +23,7 @@ function SugggestedFriends() {
     
 const getAllUsers = async () => {
   try {
-    const response = await fetch(`http://localhost:3001/users/${_id}/allusers`, {
+    const response = await fetch(`${config.API_SERVER}/users/${_id}/allusers`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

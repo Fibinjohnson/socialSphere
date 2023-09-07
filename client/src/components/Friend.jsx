@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { setChatName } from "state";
 import Modal from "./Modal";
-
+import config from '../config'
 
 
 function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
@@ -47,7 +47,7 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
   
 
     const patchFriend=async()=>{
-       const response= await fetch(`http://localhost:3001/users/${_id}/${friendId}`,{
+       const response= await fetch(`${config.API_SERVER}/users/${_id}/${friendId}`,{
             method:"PATCH",
             headers:{Authorization:`Bearer ${token}`},
             "Content-Type":"application/json"

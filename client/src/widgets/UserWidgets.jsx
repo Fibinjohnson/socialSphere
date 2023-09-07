@@ -7,6 +7,7 @@ import WidgetWrap from "components/WidgetWrap";
 import { useSelector } from "react-redux";
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import config from '../config'
 
 const UserWidgets=({userId})=>{
     const [user,setUser]=useState(null);
@@ -22,7 +23,7 @@ const UserWidgets=({userId})=>{
 
     const getUser=async()=>{
         try{
-            const userResponse=await fetch(`http://localhost:3001/users/${userId}`,{
+            const userResponse=await fetch(`${config.API_SERVER}/users/${userId}`,{
                 method:"GET",
                 headers:{Authorization:`Bearer ${token}`}
             })

@@ -32,7 +32,7 @@ module.exports.getAllUsers=async(req,res)=>{
       res.status(500).json({getAlluserError:err.message})
       console.log(err,"console getall user error")
     }
-}
+} 
 module.exports.getUserFriends=async(req,res)=>{
     try{
         let database=await connectToDb()

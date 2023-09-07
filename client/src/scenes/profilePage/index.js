@@ -7,13 +7,14 @@ import NavPage from "scenes/navbarPage";
 import FriendListWidget from "widgets/FriendListWidget";
 import PostsWidget from "widgets/PostsWidget";
 import UserWidgets from "widgets/UserWidgets";
+import config from '../../config';
 const ProfilePage=()=>{
     const [user,setUser]=useState(null)
     const {userId}=useParams();
     const token=useSelector((state)=>state.token);
     const isNonMobileScreen=useMediaQuery("(min-width:1000px)")
     const getUser=async()=>{
-        const response=await fetch(`http://localhost:3001/users/${userId}`,{
+        const response=await fetch(`${config.API_SERVER}/users/${userId}`,{
             method:"GET",
             headers:{
                 Authorization:`Bearer ${token}`

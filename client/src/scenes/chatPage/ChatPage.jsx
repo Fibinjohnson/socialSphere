@@ -3,7 +3,7 @@ import ChatWidget from "components/ChatWidget";
 import { useSelector } from "react-redux";
 import Friend from "components/Friend";
 import { Box } from "@mui/material";
-
+import config from '../../config'
 
 
 function ChatPage() {
@@ -12,7 +12,7 @@ function ChatPage() {
     const [userFriends, setUserFriends] = useState([]);
 
     const getFriends=async()=>{
-      const response=await fetch(`http://localhost:3001/users/${loggedInUser._id}/friends`,{
+      const response=await fetch(`${config.API_SERVER}/users/${loggedInUser._id}/friends`,{
         method:"GET",
         headers:{"Authorization":`Bearer ${token}`}
       })
