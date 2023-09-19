@@ -163,10 +163,10 @@ function ChatWidget() {
       display="flex"
       flexWrap="wrap" 
       alignItems="flex-start" 
-      alignContent="flex-start" // Align items with space between them
+      alignContent="flex-start" 
       backgroundColor={primaryLight}
-      width="200px" // You can adjust the width as needed
-      overflow="hidden" // Hide the overflowing text
+      width="200px" 
+      overflow="hidden"    
       p="10px"
       marginLeft={'73%'}
     >

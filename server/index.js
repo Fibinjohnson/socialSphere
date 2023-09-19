@@ -36,14 +36,17 @@ app.use("/api/assets", express.static(path.join(__dirname,  "public", "assets"))
 
 global.onlineUsers=new Map();
 
+
 io.on('connection', (socket) => {
   global.chatSocket = socket;
-  console.log(socket,'socket')
+  console.log(onlineUsers,'online users')  
+  console.log('websocket details..............................',socket,socket.id,'socket') 
 
-  socket.on("add-user", (userId) => {
+  socket.on("add-user", (userId) => {  
     onlineUsers.set(userId, socket.id);
+    
   });
-
+ 
   socket.on('send-msg', (data) => {
     console.log('Updated:', onlineUsers);
     const sendUserSocket = onlineUsers.get(data.to);

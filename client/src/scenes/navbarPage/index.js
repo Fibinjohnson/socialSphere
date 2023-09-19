@@ -23,7 +23,7 @@ const NavPage=()=>{
     const fullname=`${user.firstname} ${user.lastname}`
     const isNonMobileScreen=useMediaQuery("(min-width:1000px)")
     const userId=useSelector((state)=>state.user._id)
-    const [searchResult,setSearchResult]=useState([])
+    const [searchResult,setSearchResult]=useState()
 
     const handleSearch=async()=>{
       const url = new URL(`${config.API_SERVER}/users/${userId}/search`);
@@ -62,24 +62,33 @@ const NavPage=()=>{
                 SocialSphere 
             </Typography>
             {isNonMobileScreen && (
-              
+              <>
               <FlexBetween
                 backgroundColor={neutralLight}
                 borderRadius="9px"
                 gap="3rem"
                 padding="0.1rem 1.5rem"
               >
+              <FlexBetween>
                 <InputBase placeholder="Search..." onChange={(e)=>{setSearchValue(e.target.value)}} value={searchValue}/>
                 <IconButton>
                   <Search onClick={handleSearch}/>
                 </IconButton>  
+                </FlexBetween>
               </FlexBetween>
-           
+              <div style={{display:'flex',flexDirection:'column'}}>
+              {
+               searchResult && searchResult.map((friends)=>{
+                return <div onClick={()=>{navigate(`/profile/${friends._id}`)}} style={{padding:'3px', cursor:'pointer'}} key={friends._id} >{`${friends.firstname}  ${friends.lastname}`}</div>
+               }) 
+              }
+              </div>
+              </>
               
             )}
-           
+         
           </FlexBetween>
-           
+          
           {/* DESKTOP NAV */}
           {isNonMobileScreen ? (
             <FlexBetween gap="2rem">

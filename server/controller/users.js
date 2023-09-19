@@ -104,21 +104,31 @@ const spaceIndex = searchQuery.indexOf(' ');
 if (spaceIndex !== -1) {
   firstName = searchQuery.slice(0, spaceIndex);
   lastName = searchQuery.slice(spaceIndex + 1);
-  console.log(firstName,lastName,'firdt condition')
+  const database=await connectToDb();
+  const names = await database.collection('users').find({
+   $and: [
+     { firstname: {$regex:firstName,$options:'i'} },
+     { lastname:  {$regex:lastName,$options:'i'}}
+   ]
+ }).toArray();
+ console.log(names)                                                                          
+res.status(200).json(names)
 } else {
   firstName = searchQuery;
-  console.log(firstName,'secont condition')
+  const database=await connectToDb();
+  const names = await database.collection('users').find({
+    firstname: {$regex:firstName,$options:'i'}
+  },
+  {
+    projection:{
+      _id:1,
+      firstname:1,
+      lastname:1
+    }
+  }).toArray();                                                                             
+res.status(200).json(names)   
 }
-     const database=await connectToDb();
-     const names = await database.collection('users').find({
-      $and: [
-        { firstname: {$regex:firstName,$options:'i'} },
-        { lastname:  {$regex:lastName,$options:'i'}}
-      ]
-    }).toArray();
-                                                                                   
-res.status(200).json(names)
-     console.log(names,'names')
+    
   }catch(error){
     res.status(500).json({SearchError:error.message})
   }
