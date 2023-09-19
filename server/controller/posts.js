@@ -16,6 +16,7 @@ const {ObjectId}=require("mongodb")
             const {userId}=req.params;
             const db=await connectToDb();
             const userPosts=await db.collection(collectionName.postCollection).find({userId:new ObjectId(userId)}).toArray()
+            console.log(userPosts)
             res.status(200).json(userPosts)
 
         }catch{

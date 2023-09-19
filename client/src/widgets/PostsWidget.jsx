@@ -26,12 +26,13 @@ const PostsWidget=({userId,isProfile=false})=>{
     }
     const getUserPosts=async()=>{
         try{
-            const response=await fetch(`http://localhost:3001/posts/${userId}/posts`,{
+            const response=await fetch(`${config.API_SERVER}/posts/${userId}/posts`,{
                 method:"GET",
                 headers:{Authorization:`Bearer ${token}`},
             });
             const data=await response.json()
             dispatch(setPosts({posts:data}))
+           
         }catch(err){
             console.log(err,"get users in feed error")
         }
