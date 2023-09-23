@@ -4,6 +4,7 @@ const {ObjectId}=require("mongodb")
 
      module.exports.getFeedPosts=async(req,res)=>{
           try{
+            console.log(req.user.id,'req user')
             const db=await connectToDb();
             const allPostsToFeed=await db.collection("posts").find().toArray();
             res.status(200).json(allPostsToFeed)

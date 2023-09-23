@@ -13,7 +13,7 @@ import config from '../../config'
  const registerScema=yup.object().shape({
   firstname:yup.string().required("required"),
   lastname:yup.string().required("required"),
-  email:yup.string().email("invalid Email").required("required"),
+  email:yup.string().email("invalid Email format ").required("required"),
   password:yup.string().required("required"),
   location:yup.string().required("required"),
   occupation:yup.string().required("required"),

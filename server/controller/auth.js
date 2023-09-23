@@ -13,7 +13,7 @@ module.exports.register=async(req,res)=>{
             picture,
             location,
             occupation}=req.body
-            console.log(req.body)
+       
             
            const saltRounds = 10; // or choose an appropriate value
            const salt = await bcrypt.genSalt(saltRounds);
@@ -55,8 +55,8 @@ module.exports.editProfile=async(req,res)=>{
           picture: req.body.picture,
         },
       };
-      const result = await database.collection('users').updateOne({ _id: new ObjectId(userId) }, updateQuery);
-      const post=await database.collection('posts').updateMany({userId: new ObjectId(userId)},{$set:{userPicturePath:req.body.picture}})
+     await database.collection('users').updateOne({ _id: new ObjectId(userId) }, updateQuery);
+     await database.collection('posts').updateMany({userId: new ObjectId(userId)},{$set:{userPicturePath:req.body.picture}})
       const updatedUser = await database.collection('users').findOne({ _id: new ObjectId(userId) });
       res.status(200).json(updatedUser)
         
@@ -67,7 +67,7 @@ module.exports.editProfile=async(req,res)=>{
 },
 module.exports.login=async(req,res)=>{
     try{
-        console.log(req.body,"req,body")
+     
         const {
             email,password
         }=req.body;
@@ -80,7 +80,7 @@ module.exports.login=async(req,res)=>{
           
         };
         const isMatch= await bcrypt.compare(password,user.password);
-        console.log(isMatch,"password match")
+       
         
         if(!isMatch){
             console.log("not match ")
@@ -88,7 +88,7 @@ module.exports.login=async(req,res)=>{
         }else{
            
             const token=jwt.sign({id:user._id},process.env.SECRETCODEJWT);
-          
+            console.log(token,'generated token')
             const userWithoutPassword = { ...user, password: undefined };
             res.status(200).json({token,user:userWithoutPassword})
         }

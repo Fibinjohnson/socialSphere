@@ -1,7 +1,7 @@
 import React from 'react'
 import "./Modal.css"
-
 import { CancelOutlined ,Done} from "@mui/icons-material";
+
 function Modal({ setOpenModal ,patchFriend,isFriend,name }) {
   return (
     <div className="modalBackground">
