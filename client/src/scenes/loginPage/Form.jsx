@@ -37,7 +37,7 @@ import config from '../../config'
   email:"",
   password:""
  }
-function Form() {
+function Form(props) {
   const [pageType,setPageType]=useState('login');
   const {palette}=useTheme();
   const dispatch=useDispatch();
@@ -45,6 +45,7 @@ function Form() {
   const isNonMobileScreen=useMediaQuery("(min-width:600px)")
   const isLogin=pageType==="login";
   const isRegister=pageType==="register";
+  props.pageType(isLogin)
 
   const handleSubmit=async(values,onSubmitProps)=>{
     {isLogin &&await login(values,onSubmitProps)};
@@ -109,7 +110,7 @@ function Form() {
 
     })=>(
       <form onSubmit={handleSubmit}>
-        <Box display={"grid"} gap="30px" gridTemplateColumns={'repeat(4,minxmax(0,1fr))'} sx={{"& >div":{gridColumn:isNonMobileScreen?undefined:"span 4"}}}>
+        <Box display={"grid"} gap="30px" gridTemplateColumns={'repeat(4,minxmax(0,1fr))'} sx={{"& >div" : {gridColumn:isNonMobileScreen? undefined:"span 4"}}}>
         {isRegister && (<>
           <TextField label={"First Name"}
           onBlur={handleBlur} 
