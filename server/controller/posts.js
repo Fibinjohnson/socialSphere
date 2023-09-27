@@ -4,7 +4,6 @@ const {ObjectId}=require("mongodb")
 
      module.exports.getFeedPosts=async(req,res)=>{
           try{
-            console.log(req.user.id,'req user')
             const db=await connectToDb();
             const allPostsToFeed=await db.collection("posts").find().toArray();
             res.status(200).json(allPostsToFeed)
@@ -17,7 +16,6 @@ const {ObjectId}=require("mongodb")
             const {userId}=req.params;
             const db=await connectToDb();
             const userPosts=await db.collection(collectionName.postCollection).find({userId:new ObjectId(userId)}).toArray()
-            console.log(userPosts)
             res.status(200).json(userPosts)
 
         }catch{
@@ -28,7 +26,6 @@ const {ObjectId}=require("mongodb")
         try{
             const {id}=req.params;
             const {userId}=req.body;
-            console.log(id,userId,"params server")
             const database=await connectToDb();
             const removeResult = await database.collection(collectionName.postCollection).updateOne(
                 { _id: new ObjectId(id), likes: new ObjectId(userId) },
@@ -36,7 +33,6 @@ const {ObjectId}=require("mongodb")
               );
               
               if (removeResult.modifiedCount === 0) {
-                // Add userId to the likes array if it doesn't exist
                 const addResult = await database.collection(collectionName.postCollection).updateOne(
                   { _id: new ObjectId(id), likes: { $ne: new ObjectId(userId) } },
                   { $addToSet: { likes: new ObjectId(userId) } }
