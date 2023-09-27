@@ -62,12 +62,9 @@ module.exports.getUserFriends=async(req,res)=>{
             }
           }
         ]).toArray();
-        
         res.status(200).json(friendsWithDetails)
-      
     }catch(err){
         res.status(500).json({ friendserr:err.message})
-       
     }
 }
 module.exports.addRemoveFriend=async(req,res)=>{

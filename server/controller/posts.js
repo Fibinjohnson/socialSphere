@@ -107,7 +107,6 @@ module.exports.commentPost=async(req,res)=>{
     ]).toArray();
      await database.collection("posts").updateOne({_id:new ObjectId(postId)},{$set:{allComments:updatedPost}})
     const updatedPosts=await database.collection('posts').findOne({_id:new ObjectId(postId)});
-    
     res.status(200).json(updatedPosts)
     
    
