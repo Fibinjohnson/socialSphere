@@ -87,7 +87,7 @@ module.exports.login=async(req,res)=>{
             return res.status(400).json({msg:"invalid Password"})
         }else{
            
-            const token=jwt.sign({id:user._id},process.env.SECRETCODEJWT);
+            const token=jwt.sign({id:user._id},"3802b4d810b37d10944ae36e735d17bacde4d694111320af862cebed73872486");
             console.log(token,'generated token')
             const userWithoutPassword = { ...user, password: undefined };
             res.status(200).json({token,user:userWithoutPassword})

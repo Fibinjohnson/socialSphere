@@ -15,7 +15,7 @@ module.exports.verifyToken = async (req, res, next) => {
     
     }
 
-    const verified = jwt.verify(token, process.env.SECRETCODEJWT);
+    const verified = jwt.verify(token, "3802b4d810b37d10944ae36e735d17bacde4d694111320af862cebed73872486");
     console.log(verified,"verified")
     req.user = verified;
     

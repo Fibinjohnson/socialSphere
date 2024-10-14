@@ -1,8 +1,8 @@
 const {MongoClient}=require("mongodb");
 
 async function connectToDb(){
-const url=process.env.MONGOURL;
-const client=new MongoClient('mongodb://127.0.0.1:27017/');
+    const uri = "mongodb://0.0.0.0:27017/";
+    const client = new MongoClient(uri);
 try{
 await client.connect();
 const database=client.db("Sociom");
