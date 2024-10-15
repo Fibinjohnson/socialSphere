@@ -1,24 +1,39 @@
 import React from 'react'
 import { Box,Typography,useTheme } from "@mui/material"
 import { useSelector,useDispatch } from "react-redux"
+import {IconButton} from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
 import { useState,useEffect } from "react";
 import config from '../config'
+import Modal from "./Modal";
+import { setFriends } from "state"
+
+
 
 function SugggestedFriends() {
     const {palette}=useTheme();
     const navigate=useNavigate();
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
+    
+    
+
     const main=palette.neutral.main
     const medium=palette.neutral.medium
+    const [openModal,setOpenModal]=useState(false)
+    const dispatch=useDispatch()
    
+
+
+
     const friends=useSelector((state)=>state.user.friends)
     const yesFriendsArray=friends.length>0;
     const [allUsers,setAllUsers]=useState([])
-  
+    // const isFriend=friends.includes(user._id);
+
     
     
 const getAllUsers = async () => {
@@ -64,6 +79,20 @@ const getAllUsers = async () => {
                     {user.subtitle}
                   </Typography>
                 </Box>
+                <>
+                <Box>
+                  {
+                    openModal && <Modal
+                    setOpenModal={setOpenModal}
+                    friendId={user._id}
+                    isFriend={false}
+                    name={"demo"}
+                  />
+                  }
+                 <IconButton >
+                     <PersonAddIcon/>
+                 </IconButton>
+                  </Box></>
               </FlexBetween>
               {/* {!yourSelf && (
                 <IconButton onClick={() => setOpenModal(true)}>

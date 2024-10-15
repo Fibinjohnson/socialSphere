@@ -61,6 +61,7 @@ function ChatWidget() {
    }
 
     const getChat=async()=>{
+      console.log(chatName,"chatnameeee")
       const response=await fetch(`${config.API_SERVER}/chats/getChats/${chatName.user}/${chatName.currentChat}`,{
         method:'GET',
         headers:{Authorization:`Bearer ${token}`}

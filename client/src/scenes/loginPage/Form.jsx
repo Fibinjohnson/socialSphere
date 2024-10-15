@@ -82,9 +82,10 @@ function Form(props) {
     body:JSON.stringify(values)
    });
    const loggedIn=await loggedInResponse.json();
+   console.log(loggedIn.user,"loggedInloggedIn")
    onSubmitProps.resetForm();
    if(loggedIn){
-    dispatch(
+    await dispatch(
       setLogin({
         user:loggedIn.user,
         token:loggedIn.token
