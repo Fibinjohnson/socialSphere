@@ -1,12 +1,12 @@
 import { PersonAddOutlined,PersonRemoveOutlined } from "@mui/icons-material"
 import { Box,IconButton,Typography,useTheme } from "@mui/material"
 import ChatIcon from '@mui/icons-material/Chat';
+import { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux"
 import { setFriends } from "state"
 import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { setChatName } from "state";
 import Modal from "./Modal";
 import config from '../config'
@@ -19,16 +19,21 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
     const {_id}=useSelector((state)=>state.user)
     const senderName=useSelector((state)=>state.user.firstname)
     const token=useSelector((state)=>state.token)
+    const [friendList,setFriendList]=useState([])
     const friends=useSelector((state)=>state.user.friends)
     const yesFriendsArray=friends.length>0;
-    const arrayFriends=yesFriendsArray ?friends:friends 
+    
     const [openModal,setOpenModal]=useState(false)
     const primaryLight=palette.primary.light
     const primaryDark=palette.primary.dark
     const main=palette.neutral.main
     const medium=palette.neutral.medium
-    const isFriend=arrayFriends.includes(friendId);
+    const isFriend=friendList.includes(friendId);
     const yourSelf=(friendId===_id);
+    useEffect(()=>{
+      console.log(friends,"friendssssss")
+     setFriendList(friends)
+    },[friends])
     const handleChatClick=async()=>{
       dispatch(
         setChatName({
@@ -62,7 +67,7 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
           {openModal ? (
             <Modal
               setOpenModal={setOpenModal}
-              patchFriend={patchFriend}
+              friendId={friendId}
               isFriend={isFriend}
               name={name}
             />

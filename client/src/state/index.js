@@ -4,7 +4,9 @@ const initialState={
     name:null,
     posts:[],
     token:"null",
-    user:"null",
+    user:{
+        friends:[]
+    },
     friendDetails:[],
     chatName:[],
 };

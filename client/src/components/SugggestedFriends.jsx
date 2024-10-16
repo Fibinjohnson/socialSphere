@@ -18,7 +18,8 @@ function SugggestedFriends() {
     const navigate=useNavigate();
     const {_id}=useSelector((state)=>state.user)
     const token=useSelector((state)=>state.token)
-    
+    const [friendList,setFriendList]=useState([])
+    const [selectedUser,setSelectedUser]=useState()
     
 
     const main=palette.neutral.main
@@ -30,6 +31,8 @@ function SugggestedFriends() {
 
 
     const friends=useSelector((state)=>state.user.friends)
+    const isFriend=(friendId)=>friendList.includes(friendId);
+
     const yesFriendsArray=friends.length>0;
     const [allUsers,setAllUsers]=useState([])
     // const isFriend=friends.includes(user._id);
@@ -51,11 +54,34 @@ const getAllUsers = async () => {
     console.error(error);
   }
 };
+const handleOpenModal=(user)=>{
+try{
+  console.log(user,"userrrrrr")
+  setOpenModal(true)
+  setSelectedUser(user)
+
+}catch(error){
+  setOpenModal(false)
+  console.log(error)
+}
+}
 
     useEffect(()=>{getAllUsers()},[])
+    useEffect(()=>{
+      console.log(friends,"friendssssss")
+     setFriendList(friends)
+    },[friends])
     return (
       <div >
       <h3>People you might know</h3>
+      {
+        openModal && <Modal
+        setOpenModal={setOpenModal}
+        friendId={selectedUser._id}
+        isFriend={isFriend(selectedUser._id)}  
+        name={`${selectedUser.firstname} ${selectedUser.lastname}`}
+      />
+      }
         {allUsers &&
           allUsers.map((user) => (
             <FlexBetween key={user._id}>
@@ -81,15 +107,8 @@ const getAllUsers = async () => {
                 </Box>
                 <>
                 <Box>
-                  {
-                    openModal && <Modal
-                    setOpenModal={setOpenModal}
-                    friendId={user._id}
-                    isFriend={false}
-                    name={"demo"}
-                  />
-                  }
-                 <IconButton >
+
+                 <IconButton onClick={()=>handleOpenModal(user)} >
                      <PersonAddIcon/>
                  </IconButton>
                   </Box></>

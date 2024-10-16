@@ -1,8 +1,29 @@
 import React from 'react'
 import "./Modal.css"
 import { CancelOutlined ,Done} from "@mui/icons-material";
+import { useDispatch , useSelector} from 'react-redux';
+import config from 'config';
+import { setFriends } from "state"
 
-function Modal({ setOpenModal ,patchFriend,isFriend,name }) {
+function Modal(props) {
+  const { setOpenModal ,isFriend,name ,friendId}=props
+  const dispatch=useDispatch()
+  const {_id}=useSelector((state)=>state.user)
+  const token=useSelector((state)=>state.token)
+  const friends=useSelector((state)=>state.user.friends)
+
+  const patchFriend=async()=>{
+    setOpenModal(true)
+    const response= await fetch(`${config.API_SERVER}/users/${_id}/${friendId}`,{
+         method:"PATCH",
+         headers:{Authorization:`Bearer ${token}`},
+         "Content-Type":"application/json"
+     })
+     const data=await response.json();
+     const isArray=data.length>0;
+    const arrayOfFriends=isArray ?data[0].allFriends:data 
+     dispatch(setFriends({friends:arrayOfFriends}))
+ }
   return (
     <div className="modalBackground">
     <div className="modalContainer">
