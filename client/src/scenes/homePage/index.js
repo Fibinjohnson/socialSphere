@@ -1,4 +1,4 @@
-import { Box ,useMediaQuery} from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import NavPage from "scenes/navbarPage";
 import UserWidgets from "widgets/UserWidgets";
 import MyPostsWidgets from "widgets/MyPostsWidgets";
@@ -7,11 +7,10 @@ import { useSelector } from "react-redux";
 import AdvertWidget from "widgets/AdvertWidget";
 import FriendListWidget from "widgets/FriendListWidget";
 
+const HomePage = () => {
+  const isNonMobileScreen = useMediaQuery("(min-width:1000px)");
+  const { _id, picture } = useSelector((state) => state.user);
 
-const HomePage=()=>{
-  const isNonMobileScreen=useMediaQuery('(min-width:1000px)')
-  const {_id,picture}=useSelector((state)=>state.user )
- 
   return (
     <Box>
       <NavPage />
@@ -23,7 +22,7 @@ const HomePage=()=>{
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreen ? "26%" : undefined}>
-          <UserWidgets userId={_id} picturePath={picture} ></UserWidgets>
+          <UserWidgets userId={_id} picturePath={picture}></UserWidgets>
         </Box>
         <Box
           flexBasis={isNonMobileScreen ? "42%" : undefined}
@@ -39,11 +38,8 @@ const HomePage=()=>{
             <FriendListWidget userId={_id} />
           </Box>
         )}
-       
       </Box>
-      
     </Box>
-  
   );
-}
+};
 export default HomePage;

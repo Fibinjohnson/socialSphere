@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import config from '../config'
 
 const UserWidgets=({userId})=>{
-    const [user,setUser]=useState(null);
+    const [user,setUser]=useState({friends:[]});
     const {palette}=useTheme();
     const navigate=useNavigate();
     const token =useSelector((state)=>
@@ -68,7 +68,7 @@ return(
                     {firstname} {lastname}
                 </Typography>
                 <Typography color="medium">
-                    {friends.length} friends
+                    {friends?friends.length:0} friends
                 </Typography>
             </Box>
            

@@ -9,10 +9,9 @@ import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
 import { setChatName } from "state";
 import Modal from "./Modal";
-import config from '../config'
 
 
-function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
+function Friend({friendId,name,subtitle,userPicturePath, userData, chatpage}) {
     const {palette}=useTheme();
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -48,28 +47,13 @@ function Friend({friendId,name,subtitle,userPicturePath, chatpage}) {
         })
       );
     }
-  
-  
-
-    const patchFriend=async()=>{
-       const response= await fetch(`${config.API_SERVER}/users/${_id}/${friendId}`,{
-            method:"PATCH",
-            headers:{Authorization:`Bearer ${token}`},
-            "Content-Type":"application/json"
-        })
-        const data=await response.json();
-        const isArray=data.length>0;
-       const arrayOfFriends=isArray ?data[0].allFriends:data 
-        dispatch(setFriends({friends:arrayOfFriends}))
-    }
     return (
         <>
           {openModal ? (
             <Modal
               setOpenModal={setOpenModal}
-              friendId={friendId}
               isFriend={isFriend}
-              name={name}
+              selectedUser={userData}
             />
           ) : (
             <FlexBetween>

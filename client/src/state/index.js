@@ -18,7 +18,6 @@ export const authSlice=createSlice({
       state.mode=state.mode==="dark"?"light":"dark";
     },
     setLogin:(state,action)=>{
-        console.log(action,"actionn")
         state.user=action.payload.user;
         state.token=action.payload.token;
     },
@@ -47,7 +46,8 @@ export const authSlice=createSlice({
             }
         })
         state.posts=updatedPost;
-    },setFriendsDetails:(state,action)=>{
+    },
+    setFriendsDetails:(state,action)=>{
         state.friendDetails=action.payload.details;
     },
     setChatName:(state,action)=>{

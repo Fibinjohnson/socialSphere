@@ -37,7 +37,7 @@ function FriendListWidget({userId}) {
     </Typography>
     <Box display={"flex" } flexDirection={"column"} gap="1.5rem"> 
     {friendDetails.map((friend)=>
-        <Friend key={friend._id} friendId={friend._id} name={`${friend.firstname} ${friend.lastname}`} userPicturePath={friend.picture} subtitle={friend.occupation}/> 
+        <Friend key={friend._id} friendId={friend._id} userData={friend} name={`${friend.firstname} ${friend.lastname}`} userPicturePath={friend.picture} subtitle={friend.occupation}/> 
     )
 
     }
