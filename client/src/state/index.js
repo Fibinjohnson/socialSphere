@@ -55,9 +55,29 @@ export const authSlice=createSlice({
     },
     setEditeduser:(state,action)=>{
         state.user=action.payload.user;
+    },
+    addOrRemoveUser:(state,action)=>{
+     console.log(action.payload.user,"setFriendsDetails  0000")
+     const friend = state.friendDetails.find((friends) => friends._id === action.payload.user._id);
+
+     if (friend) {
+       // Remove the friend if found
+       return {
+         ...state,
+         friendDetails: state.friendDetails.filter((friends) => friends._id !== action.payload.user._id)
+       };
+     } else {
+       // Add the friend if not found
+       return {
+         ...state,
+         friendDetails: [...state.friendDetails, action.payload.user]
+       };
+     }
+     
     }
+    
 
 }
 })
-export const {setMode,setLogin,setLogout,setPost,setPosts,setFriends,setFriendsDetails,setChatName,setEditeduser}=authSlice.actions;
+export const {setMode,setLogin,setLogout,setPost,setPosts,setFriends,setFriendsDetails,setChatName,setEditeduser,addOrRemoveUser}=authSlice.actions;
 export default authSlice;
