@@ -17,6 +17,7 @@ function FriendListWidget({userId}) {
             headers: {Authorization:`Bearer ${token}`}
         })
         const data= await response.json();
+        console.log(data,"setFriendsDetails")
         dispatch(setFriendsDetails({details:data}))
        
     }
