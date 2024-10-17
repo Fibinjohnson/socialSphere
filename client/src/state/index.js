@@ -61,13 +61,11 @@ export const authSlice=createSlice({
      const friend = state.friendDetails.find((friends) => friends._id === action.payload.user._id);
 
      if (friend) {
-       // Remove the friend if found
        return {
          ...state,
          friendDetails: state.friendDetails.filter((friends) => friends._id !== action.payload.user._id)
        };
      } else {
-       // Add the friend if not found
        return {
          ...state,
          friendDetails: [...state.friendDetails, action.payload.user]
