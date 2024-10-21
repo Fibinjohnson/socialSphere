@@ -33,24 +33,19 @@ function FriendListWidget({userId}) {
     sx={{mb:"1.5rem"}}
     >
        Friends 
-      
-
     </Typography>
     <Box display={"flex" } flexDirection={"column"} gap="1.5rem"> 
+
     {Array.isArray(friendDetails) && friendDetails.length > 0 ? (
   friendDetails.map((friend) => (
     <Friend 
-      key={friend._id} 
-      friendId={friend._id} 
-      userData={friend} 
-      name={`${friend.firstname} ${friend.lastname}`} 
-      userPicturePath={friend.picture} 
-      subtitle={friend.occupation} 
+userData={friend}
     />
   ))
 ) : (
   <p>No friends to display</p>
 )}
+
 
     </Box>
    </WidgetWrap>

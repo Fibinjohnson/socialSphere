@@ -3,7 +3,7 @@ import "./Modal.css";
 import { CancelOutlined, Done } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import config from "config";
-import { setFriends } from "state";
+import { setFriends , addOrRemoveUser } from "state";
 
 function Modal(props) {
   const { setOpenModal, isFriend,selectedUser  } = props;
@@ -27,6 +27,7 @@ function Modal(props) {
     const isArray = data.length > 0;
     const arrayOfFriends = isArray ? data[0].allFriends : data;
     dispatch(setFriends({ friends: arrayOfFriends }));
+    dispatch(addOrRemoveUser({user:selectedUser}))
     setOpenModal(false);
   };
   return (
