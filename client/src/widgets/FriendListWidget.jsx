@@ -9,7 +9,6 @@ function FriendListWidget({userId}) {
     const {palette}=useTheme();
     const dispatch=useDispatch()
     const token=useSelector((state)=>state.token)
-    const friends=useSelector((state)=>state.user)
     const friendDetails=useSelector((state)=>state.friendDetails)
     const getFriends=async()=>{
         const response= await fetch(`${config.API_SERVER}/users/${userId}/friends`,{
@@ -17,12 +16,14 @@ function FriendListWidget({userId}) {
             headers: {Authorization:`Bearer ${token}`}
         })
         const data= await response.json();
-        dispatch(setFriendsDetails({details:data}))
+        console.log(data,"detaaaaaaaaaa")
+        dispatch(setFriendsDetails({details:data?data:[]}))
        
     }
     useEffect(()=>{
       getFriends()
-    },[])
+    },[userId])
+
   return (
     <>
    <WidgetWrap>
@@ -34,10 +35,18 @@ function FriendListWidget({userId}) {
        Friends 
     </Typography>
     <Box display={"flex" } flexDirection={"column"} gap="1.5rem"> 
-    {friendDetails.map((friend)=>
-        <Friend key={friend._id} userData={friend}/> 
-    )
-    }
+
+    {Array.isArray(friendDetails) && friendDetails.length > 0 ? (
+  friendDetails.map((friend) => (
+    <Friend 
+userData={friend}
+    />
+  ))
+) : (
+  <p>No friends to display</p>
+)}
+
+
     </Box>
    </WidgetWrap>
    
