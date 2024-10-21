@@ -57,7 +57,6 @@ export const authSlice=createSlice({
         state.user=action.payload.user;
     },
     addOrRemoveUser:(state,action)=>{
-     console.log(action.payload.user,"setFriendsDetails  0000")
      const friend = state.friendDetails.find((friends) => friends._id === action.payload.user._id);
 
      if (friend) {

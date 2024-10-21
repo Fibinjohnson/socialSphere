@@ -56,14 +56,20 @@ isProfile=false}) {
       setComment('')
       dispatch(setPost({post:data}))
     }
-
+    const userData={
+      friendId:userId,
+      firstname:name,
+      lastname:'',
+      userPicturePath:userPicturePath,
+      subtitle:location,
+      hello:"hello"
+    }
+   console.log(userPicturePath,"userPicturePathuserPicturePath")
     return (
       <WidgetWrap m="2rem 0">
         <Friend
-          friendId={userId}
-          name={name}
-          subtitle={location}
-          userPicturePath={userPicturePath}
+        userData={userData}
+
         />
         <Typography color={main} sx={{ mt: "1rem" }}>
           {description}

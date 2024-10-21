@@ -3,7 +3,6 @@ import { Box,IconButton,Typography,useTheme } from "@mui/material"
 import ChatIcon from '@mui/icons-material/Chat';
 import { useEffect, useState } from "react";
 import { useSelector,useDispatch } from "react-redux"
-import { setFriends } from "state"
 import FlexBetween from "./Flexbetween";
 import UserImage from "./UserImages.jsx";
 import { useNavigate } from "react-router-dom";
@@ -12,14 +11,13 @@ import Modal from "./Modal";
 
 
 function Friend({userData, chatpage}) {
-
   const {_id:friendId,
              firstname,
              lastname, 
              picture:userPicturePath, 
              occupation:subtitle
           }= userData
-
+   console.log(userData,"userDate")
     const {palette}=useTheme();
     const name=`${firstname} ${lastname}`
     const dispatch=useDispatch();
@@ -30,7 +28,6 @@ function Friend({userData, chatpage}) {
     const friends=useSelector((state)=>state.user.friends)
     
     const [openModal,setOpenModal]=useState(false)
-    const primaryLight=palette.primary.light
     const primaryDark=palette.primary.dark
     const main=palette.neutral.main
     const medium=palette.neutral.medium
