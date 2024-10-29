@@ -22,6 +22,16 @@ const { Server } = require("socket.io");
 const server=http.createServer(app)
 const io = new Server(server);
 
+const  pg =require("pg") 
+const { Client } = pg
+const client = new Client({
+  user: 'myuser',
+  host: 'localhost',
+  database: 'mydatabase',
+  password: 'mypassword',
+  port: 5432,
+})
+
 app.use(cors({  origin: 'http://localhost:3000',
      credentials:true}))
 app.use(cookieParser())
@@ -55,6 +65,12 @@ io.on('connection', (socket) => {
   });
 });
 
+client.connect((err) => {
+  client.query('SELECT $1::text as message', ['Hello world!'], (err, res) => {
+    console.log(err ? err.stack : res.rows[0].message) // Hello World!
+    client.end()
+  })
+})
 
 /*STORAGE MULTER*/
 const storage = multer.diskStorage({
