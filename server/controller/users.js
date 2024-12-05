@@ -1,5 +1,6 @@
 const {connectToDb}=require("../connection/connection");
 const {ObjectId}=require('mongodb')
+const {getAllUsersFromCache}=require('../cacheManager/cache.helpers')
 
 module.exports.getUser = async (req, res) => {
   try {
@@ -24,9 +25,7 @@ module.exports.getUser = async (req, res) => {
 };
 module.exports.getAllUsers=async(req,res)=>{
     try{
-     
-     let database=await connectToDb();
-     const allUsers=await database.collection("users").find().toArray();
+      const allUsers = await getAllUsersFromCache();
      res.status(200).json(allUsers)
     }catch(err){
       res.status(500).json({getAlluserError:err.message})

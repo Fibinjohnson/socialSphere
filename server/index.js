@@ -21,6 +21,7 @@ const http=require('http');
 const { Server } = require("socket.io");
 const server=http.createServer(app)
 const io = new Server(server);
+const Memecached=require('memcached')
 
 const  pg =require("pg") 
 const { Client } = pg
